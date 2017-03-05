@@ -1,0 +1,51 @@
+SQL> describe kandidaadid;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 CHAR(11)
+ EESNIMI                                            VARCHAR2(20)
+ PERENIMI                                           VARCHAR2(30)
+ MATEMAATIKA                                        NUMBER(3)
+ VOORKEEL                                           NUMBER(3)
+ EMAKEEL                                            NUMBER(3)
+
+SQL> insert into kandidaadid values (39101250294, 'Sander', 'Pihelgas', 97, 98, 99;
+insert into kandidaadid values (39101250294, 'Sander', 'Pihelgas', 97, 98, 99
+                                                                            *
+ERROR at line 1:
+ORA-00917: missing comma 
+
+
+SQL> 1
+  1* insert into kandidaadid values (39101250294, 'Sander', 'Pihelgas', 97, 98, 99
+SQL> a)
+  1* insert into kandidaadid values (39101250294, 'Sander', 'Pihelgas', 97, 98, 99)
+SQL> r
+  1* insert into kandidaadid values (39101250294, 'Sander', 'Pihelgas', 97, 98, 99)
+
+1 row created.
+
+SQL> update kandidaadid set matemaatika=100 where id=39101250294;
+
+1 row updated.
+
+SQL> select*from kandidaadid where id=39101250294;
+
+ID                                                                              
+---------------------------------                                               
+EESNIMI                                                                         
+------------------------------------------------------------                    
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+MATEMAATIKA   VOORKEEL    EMAKEEL                                               
+----------- ---------- ----------                                               
+39101250294                                                                     
+Sander                                                                          
+Pihelgas                                                                        
+        100         98         99                                               
+                                                                                
+
+SQL> delete from kandidaadid where id=39101250294;
+
+1 row deleted.
+
+SQL> spo off;

@@ -1,0 +1,458 @@
+SQL> describe kandidaadid
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 CHAR(11)
+ EESNIMI                                            VARCHAR2(20)
+ PERENIMI                                           VARCHAR2(30)
+ MATEMAATIKA                                        NUMBER(3)
+ VOORKEEL                                           NUMBER(3)
+ EMAKEEL                                            NUMBER(3)
+
+SQL> SELECT perenimi, eesnimi, FROM kandidaadid, WHERE id LIKE '4%' AND emakeel > 60;
+SELECT perenimi, eesnimi, FROM kandidaadid, WHERE id LIKE '4%' AND emakeel > 60
+                          *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> 1
+  1* SELECT perenimi, eesnimi, FROM kandidaadid, WHERE id LIKE '4%' AND emakeel > 60
+SQL> c*, FROM* FROM
+  1* SELECT perenimi, eesnimi FROM kandidaadid, WHERE id LIKE '4%' AND emakeel > 60
+SQL> c*, WHERE* WHERE
+  1* SELECT perenimi, eesnimi FROM kandidaadid WHERE id LIKE '4%' AND emakeel > 60
+SQL> r
+  1* SELECT perenimi, eesnimi FROM kandidaadid WHERE id LIKE '4%' AND emakeel > 60
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+------------------------------------------------------------                    
+Kask                                                                            
+Pirjo                                                                           
+                                                                                
+Maasikas                                                                        
+Mari                                                                            
+                                                                                
+Vaarikas                                                                        
+Liina                                                                           
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+------------------------------------------------------------                    
+TAMM                                                                            
+KATI                                                                            
+                                                                                
+?MARIK                                                                          
+KARIINA                                                                         
+                                                                                
+HILLEP                                                                          
+MARJU                                                                           
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+------------------------------------------------------------                    
+RAUDSEPP                                                                        
+NATALIA                                                                         
+                                                                                
+BESSONOV                                                                        
+PAMELA                                                                          
+                                                                                
+MESILA                                                                          
+ANNELY                                                                          
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+------------------------------------------------------------                    
+Kuusemaa                                                                        
+Pirjo                                                                           
+                                                                                
+Liisa                                                                           
+Liina                                                                           
+                                                                                
+
+11 rows selected.
+
+SQL> 1
+  1* SELECT perenimi, eesnimi FROM kandidaadid WHERE id LIKE '4%' AND emakeel > 60
+SQL> c*eesnimi*eesnimi, emakeel
+  1* SELECT perenimi, eesnimi, emakeel FROM kandidaadid WHERE id LIKE '4%' AND emakeel > 60
+SQL> r
+  1* SELECT perenimi, eesnimi, emakeel FROM kandidaadid WHERE id LIKE '4%' AND emakeel > 60
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                         EMAKEEL         
+------------------------------------------------------------ ----------         
+Kask                                                                            
+Pirjo                                                                90         
+                                                                                
+Maasikas                                                                        
+Mari                                                                 94         
+                                                                                
+Vaarikas                                                                        
+Liina                                                                90         
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                         EMAKEEL         
+------------------------------------------------------------ ----------         
+TAMM                                                                            
+KATI                                                                 65         
+                                                                                
+?MARIK                                                                          
+KARIINA                                                              80         
+                                                                                
+HILLEP                                                                          
+MARJU                                                                70         
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                         EMAKEEL         
+------------------------------------------------------------ ----------         
+RAUDSEPP                                                                        
+NATALIA                                                              65         
+                                                                                
+BESSONOV                                                                        
+PAMELA                                                               70         
+                                                                                
+MESILA                                                                          
+ANNELY                                                               65         
+                                                                                
+
+PERENIMI                                                                        
+--------------------------------------------------------------------------------
+EESNIMI                                                         EMAKEEL         
+------------------------------------------------------------ ----------         
+Kuusemaa                                                                        
+Pirjo                                                                98         
+                                                                                
+Liisa                                                                           
+Liina                                                                71         
+                                                                                
+
+11 rows selected.
+
+SQL> SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SÜNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi;
+SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SÜNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+                         *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> 1
+  1* SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SÜNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> c*SÜNNIAEG*SYNNIAEG
+  1* SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> r
+  1* SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+                         *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> 1
+  1* SELECT eesnimi, perenimi,´+, S to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> c*´�+*
+SP2-0023: String not found.
+SQL> c*,´+, S *,
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> r
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+                                                                                                                                                      *
+ERROR at line 1:
+ORA-00904: "SÜNNIAEG": invalid identifier 
+
+
+SQL> 1
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SÜNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> c*SÜNNIAEG*SYNNIAEG
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SYNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> r
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SYNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SYNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+                                                                                                                                                                   *
+ERROR at line 1:
+ORA-00939: too many arguments for function 
+
+
+SQL> 1
+  1* SELECT eesnimi, perenimi,to_date(SUBSTR(ID,2,6), 'RRMMYYY') AS SYNNIAEG FROM kandidaadid WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE ORDER BY SUBSTR(SYNNIAEG,1,4,'MMDD'), perenimi, eesnimi
+SQL> SELECT eesnimi, perenimi,
+  2  to-date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(ID,�4,4),'MMDD')>SYSDATE
+  5  ORDER BY SUBSTR(ID,4,4);
+to-date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+*
+ERROR at line 2:
+ORA-00936: missing expression 
+
+
+SQL> 2
+  2* to-date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+SQL> c*to-date*to_date*
+  2* to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(ID,�4,4),'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(ID,�4,4),'MMDD')>SYSDATE
+                        *
+ERROR at line 4:
+ORA-00904: "�": invalid identifier 
+
+
+SQL> 4
+  4* WHERE to_date(SUBSTR(ID,�4,4),'MMDD')>SYSDATE
+SQL> c*¤4*4
+SP2-0023: String not found.
+SQL> 4
+  4* WHERE to_date(SUBSTR(ID,�4,4),'MMDD')>SYSDATE
+SQL> > 4 WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+SP2-0734: unknown command beginning "> 4 WHERE ..." - rest of line ignored.
+SQL> 4 WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> 4 WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(ID,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> 4 WHERE to_date(SUBSTR(id,4,4),´'MMDD')>to_char(sysdate,'MMDD')
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(id,4,4),´'MMDD')>to_char(sysdate,'MMDD')
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(id,4,4),´'MMDD')>to_char(sysdate,'MMDD')
+                             *
+ERROR at line 4:
+ORA-00911: invalid character 
+
+
+SQL> 4
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>to_char(sysdate,'MMDD')
+SQL> c*to_char(sysdate,'MMDD')*sysdate
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>sysdate
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(id,4,4),´'MMDD')>sysdate
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(id,4,4),´'MMDD')>sysdate
+                             *
+ERROR at line 4:
+ORA-00911: invalid character 
+
+
+SQL> 4
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>sysdate
+SQL> c*sysdate*SYSDATE
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>SYSDATE
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  WHERE to_date(SUBSTR(id,4,4),´'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+WHERE to_date(SUBSTR(id,4,4),´'MMDD')>SYSDATE
+                             *
+ERROR at line 4:
+ORA-00911: invalid character 
+
+
+SQL> 4
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>SYSDATE
+SQL> c*´�'*'
+SP2-0023: String not found.
+SQL> 4
+  4* WHERE to_date(SUBSTR(id,4,4),´'MMDD')>SYSDATE
+SQL> c*�*,´'*,'
+SP2-0023: String not found.
+SQL> 4 Where to_date(substr(id,4,4),'MMDD')>sysdate
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  Where to_date(substr(id,4,4),'MMDD')>sysdate
+  5* ORDER BY SUBSTR(ID,4,4)
+Where to_date(substr(id,4,4),'MMDD')>sysdate
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> sysdate
+SP2-0042: unknown command "sysdate" - rest of line ignored.
+SQL> SYSDATE
+SP2-0042: unknown command "SYSDATE" - rest of line ignored.
+SQL> 4
+  4* Where to_date(substr(id,4,4),'MMDD')>sysdate
+SQL> Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+SP2-0734: unknown command beginning "Where to_d..." - rest of line ignored.
+SQL> 4 Where to_date(substr(id,4,4),'MMDD')>SYSDATE
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  Where to_date(substr(id,4,4),'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+Where to_date(substr(id,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> 5
+  5* ORDER BY SUBSTR(ID,4,4)
+SQL> ORDER BY SUBSTR(ID,4,4);
+SP2-0734: unknown command beginning "ORDER BY S..." - rest of line ignored.
+SQL> 5 ORDER BY SUBSTR(ID,4,4);
+SQL> r
+  1  SELECT eesnimi, perenimi,
+  2  to_date(SUBSTR(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  FROM kandidaadid
+  4  Where to_date(substr(id,4,4),'MMDD')>SYSDATE
+  5* ORDER BY SUBSTR(ID,4,4)
+Where to_date(substr(id,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD' AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+  5  Order By substr(ID,4,4);
+to_date(substr(ID,2,6),'RRMMDD' AS "SÜNNIAEG"
+                                *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> 2
+  2* to_date(substr(ID,2,6),'RRMMDD' AS "SÜNNIAEG"
+SQL> c*D'*D')
+  2* to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+SQL> r
+  1  select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+  5* Order By substr(ID,4,4)
+Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> sysdate
+SP2-0042: unknown command "sysdate" - rest of line ignored.
+SQL> describe kandidaadid
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 CHAR(11)
+ EESNIMI                                            VARCHAR2(20)
+ PERENIMI                                           VARCHAR2(30)
+ MATEMAATIKA                                        NUMBER(3)
+ VOORKEEL                                           NUMBER(3)
+ EMAKEEL                                            NUMBER(3)
+
+SQL> describe ID
+SP2-0381: DESCRIBE sequence is not available
+
+SQL> r
+  1  select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+  5* Order By substr(ID,4,4)
+Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+              *
+ERROR at line 4:
+ORA-01858: a non-numeric character was found where a numeric was expected 
+
+
+SQL> 4
+  4* Where to_date(substr(ID,4,4),'MMDD')>SYSDATE
+SQL> c*SYSDATE*15.04.2017
+  4* Where to_date(substr(ID,4,4),'MMDD')>15.04.2017
+SQL> r
+  1  select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>15.04.2017
+  5* Order By substr(ID,4,4)
+Where to_date(substr(ID,4,4),'MMDD')>15.04.2017
+                                          *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 4
+  4* Where to_date(substr(ID,4,4),'MMDD')>15.04.2017
+SQL> c*15.04.2017*tochar(sysdate,'dd.mm.yyyy')
+  4* Where to_date(substr(ID,4,4),'MMDD')>tochar(sysdate,'dd.mm.yyyy')
+SQL> r
+  1  select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>tochar(sysdate,'dd.mm.yyyy')
+  5* Order By substr(ID,4,4)
+Where to_date(substr(ID,4,4),'MMDD')>tochar(sysdate,'dd.mm.yyyy')
+                                     *
+ERROR at line 4:
+ORA-00904: "TOCHAR": invalid identifier 
+
+
+SQL> 4
+  4* Where to_date(substr(ID,4,4),'MMDD')>tochar(sysdate,'dd.mm.yyyy')
+SQL> c*tochar*to_char
+  4* Where to_date(substr(ID,4,4),'MMDD')>to_char(sysdate,'dd.mm.yyyy')
+SQL> r
+  1  select eesnimi, perenimi,
+  2  to_date(substr(ID,2,6),'RRMMDD') AS "SÜNNIAEG"
+  3  from kandidaadid
+  4  Where to_date(substr(ID,4,4),'MMDD')>to_char(sysdate,'dd.mm.yyyy')
+  5* Order By substr(ID,4,4)
+Where to_date(substr(ID,4,4),'MMDD')>to_char(sysdate,'dd.mm.yyyy')
+                                     *
+ERROR at line 4:
+ORA-01843: not a valid month 
+
+
+SQL> spo off

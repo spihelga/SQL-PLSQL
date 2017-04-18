@@ -1,0 +1,101 @@
+SQL> SELECT o.nimetus, eesnimi, perenimi, AVG(h.punktid) as keskmine
+  2  FROM koduylesanded h, oppeained o, yliopilased y
+  3  WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, m.yliopilase_id, y.eesnimi, y.perenimi
+  4  HAVING AVG(h.punktid)=(SELECT MAX(AVG(hh.punktid))
+  5  FROM koduylesanded hh
+  6  WHERE hh.kursusekood=h.kursusekood GROUP BY hh.kursusekood, hh.yliopilase_id);
+WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, m.yliopilase_id, y.eesnimi, y.perenimi
+                                                                                       *
+ERROR at line 3:
+ORA-00904: "M"."YLIOPILASE_ID": invalid identifier 
+
+
+SQL> c/m.yli/h.yli
+  3* WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+SQL> l
+  1  SELECT o.nimetus, eesnimi, perenimi, AVG(h.punktid) as keskmine
+  2  FROM koduylesanded h, oppeained o, yliopilased y
+  3  WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+  4  HAVING AVG(h.punktid)=(SELECT MAX(AVG(hh.punktid))
+  5  FROM koduylesanded hh
+  6* WHERE hh.kursusekood=h.kursusekood GROUP BY hh.kursusekood, hh.yliopilase_id)
+SQL> r
+  1  SELECT o.nimetus, eesnimi, perenimi, AVG(h.punktid) as keskmine
+  2  FROM koduylesanded h, oppeained o, yliopilased y
+  3  WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+  4  HAVING AVG(h.punktid)=(SELECT MAX(AVG(hh.punktid))
+  5  FROM koduylesanded hh
+  6* WHERE hh.kursusekood=h.kursusekood GROUP BY hh.kursusekood, hh.yliopilase_id)
+WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+                                    *
+ERROR at line 3:
+ORA-00904: "H": invalid identifier 
+
+
+SQL> 3
+  3* WHERE o.kood=h.kursusekood AND y.id=h-yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+SQL> c/h-y/h.y
+  3* WHERE o.kood=h.kursusekood AND y.id=h.yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+SQL> r
+  1  SELECT o.nimetus, eesnimi, perenimi, AVG(h.punktid) as keskmine
+  2  FROM koduylesanded h, oppeained o, yliopilased y
+  3  WHERE o.kood=h.kursusekood AND y.id=h.yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+  4  HAVING AVG(h.punktid)=(SELECT MAX(AVG(hh.punktid))
+  5  FROM koduylesanded hh
+  6* WHERE hh.kursusekood=h.kursusekood GROUP BY hh.kursusekood, hh.yliopilase_id)
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+Digitaalkommunikatsioon                                                         
+Salme                                                                           
+Saar                                                  10                        
+                                                                                
+Oracle:  SQL ja PL/SQL                                                          
+Salme                                                                           
+Saar                                                  10                        
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+                                                                                
+Digitaalne heli- ja pildit””tlus                                                
+Salme                                                                           
+Saar                                                 5.5                        
+                                                                                
+Oracle:  SQL ja PL/SQL                                                          
+Kairi                                                                           
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+M„nd                                                  10                        
+                                                                                
+Riistvaral„hedane programmeerimine                                              
+Liina                                                                           
+Vaher                                                9.5                        
+                                                                                
+Operatsioonissteemide tehnoloogia                                              
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+Katrin                                                                          
+Kask                                                   7                        
+                                                                                
+
+6 rows selected.
+
+SQL> spo off

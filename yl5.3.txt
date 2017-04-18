@@ -1,0 +1,651 @@
+SQL> SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  	FROM (SELECT substr(id,1,1) as sugu, TO_DATE(substr(id,1,1),'RRMMDD') as aasta, AVG(EMAKEEL) as tulemus
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu='4'
+  9  3
+ 10  ;
+WHERE s.hinne=y.hinne AND s.sugu='4'
+*
+ERROR at line 8:
+ORA-00903: invalid table name 
+
+
+SQL> del 9
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  	FROM (SELECT substr(id,1,1) as sugu, TO_DATE(substr(id,1,1),'RRMMDD') as aasta, AVG(EMAKEEL) as tulemus
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu='4'
+  9* 
+SQL> 3
+  3* 	FROM (SELECT substr(id,1,1) as sugu, TO_DATE(substr(id,1,1),'RRMMDD') as aasta, AVG(EMAKEEL) as tulemus
+SQL> 3 FROM (SELECT substr(is,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as tulemus
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(is,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as tulemus
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu='4'
+  9* 
+SQL> 3
+  3* FROM (SELECT substr(is,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as tulemus
+SQL> c*is,1,1*id,1,1
+  3* FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as tulemus
+SQL> c*tulemus*hinne
+  3* FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu='4'
+  9* 
+SQL> 
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu='4'
+  9* 
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> 8
+  8* WHERE s.hinne=y.hinne AND s.sugu='4'
+SQL> c*'4'*4
+  8* WHERE s.hinne=y.hinne AND s.sugu=4
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu=4
+  9* 
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> 8
+  8* WHERE s.hinne=y.hinne AND s.sugu=4
+SQL> c*4*y.sugu
+  8* WHERE s.hinne=y.hinne AND s.sugu=y.sugu
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu=y.sugu
+  9* 
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> 3
+  3* FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY,) as aasta, AVG(EMAKEEL) as hinne
+SQL> c*'YYYY,*'YYYY'
+  3* FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  WHERE s.hinne=y.hinne AND s.sugu=y.sugu
+  9* 
+WHERE s.hinne=y.hinne AND s.sugu=y.sugu
+*
+ERROR at line 8:
+ORA-00903: invalid table name 
+
+
+SQL> 8 del
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  del
+  9* 
+SQL> 8 (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9* 
+SQL> 9 FROM kandidaadid
+SQL> 10 GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+SQL> 11 WHERE s.hinne=a.hinne AND s.sugu=4;
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9  FROM kandidaadid
+ 10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9  FROM kandidaadid
+ 10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11* WHERE s.hinne=a.hinne AND s.sugu=4
+GROUP BY substr(id,1,1)) s,
+                *
+ERROR at line 7:
+ORA-00904: "ID": invalid identifier 
+
+
+SQL> describe kandidaadid
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 CHAR(11)
+ EESNIMI                                            VARCHAR2(20)
+ PERENIMI                                           VARCHAR2(30)
+ MATEMAATIKA                                        NUMBER(3)
+ VOORKEEL                                           NUMBER(3)
+ EMAKEEL                                            NUMBER(3)
+
+SQL> select id from kandidaadid
+  2  ;
+
+ID                                                                              
+---------------------------------                                               
+48612104788                                                                     
+48606160001                                                                     
+48604040404                                                                     
+38208290342                                                                     
+38604050262                                                                     
+38503270266                                                                     
+38411150362                                                                     
+38406164918                                                                     
+38312180370                                                                     
+38509210230                                                                     
+38409200297                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38410262712                                                                     
+48206260259                                                                     
+38509044910                                                                     
+38411230296                                                                     
+48506196523                                                                     
+38406081212                                                                     
+48408300221                                                                     
+38506015724                                                                     
+38411120217                                                                     
+38409135721                                                                     
+38510030229                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38504044223                                                                     
+38505040382                                                                     
+38506120026                                                                     
+38501260311                                                                     
+38409172718                                                                     
+38202062745                                                                     
+38602200286                                                                     
+38508060242                                                                     
+38605074212                                                                     
+38509200319                                                                     
+38506075719                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38508180314                                                                     
+38503164916                                                                     
+38504190306                                                                     
+38506052231                                                                     
+38510250354                                                                     
+38505082725                                                                     
+38503246013                                                                     
+48501314267                                                                     
+38007186032                                                                     
+38505113722                                                                     
+38506070248                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38307170210                                                                     
+37805250230                                                                     
+38604030260                                                                     
+38509246032                                                                     
+38503080269                                                                     
+38406140011                                                                     
+38506114253                                                                     
+38508040318                                                                     
+38403234219                                                                     
+38503240221                                                                     
+38512030271                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38506170329                                                                     
+38508130218                                                                     
+47906254928                                                                     
+38404014210                                                                     
+38506040331                                                                     
+38603180221                                                                     
+38508220220                                                                     
+38504250214                                                                     
+38505020352                                                                     
+37902226519                                                                     
+38506130242                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38507266523                                                                     
+38510280291                                                                     
+38602112720                                                                     
+38512282725                                                                     
+38506050269                                                                     
+38606130349                                                                     
+38512240228                                                                     
+48509210326                                                                     
+48510130236                                                                     
+47501024720                                                                     
+38412140213                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38507310229                                                                     
+38509290251                                                                     
+38311180342                                                                     
+38503260320                                                                     
+38603246047                                                                     
+38508280251                                                                     
+38507150220                                                                     
+38504020236                                                                     
+38506060269                                                                     
+38409016514                                                                     
+38504260353                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38503264233                                                                     
+38411062743                                                                     
+48401080291                                                                     
+38411230350                                                                     
+38504280291                                                                     
+38501085239                                                                     
+38407310225                                                                     
+38511090313                                                                     
+38508170018                                                                     
+38501080216                                                                     
+38412186025                                                                     
+
+ID                                                                              
+---------------------------------                                               
+37910275714                                                                     
+38509094222                                                                     
+38406036523                                                                     
+48410074216                                                                     
+38505262767                                                                     
+38109120011                                                                     
+38406070014                                                                     
+38509080414                                                                     
+38505300282                                                                     
+38510160212                                                                     
+38508243716                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38509160240                                                                     
+38406070285                                                                     
+38212042746                                                                     
+48304246532                                                                     
+38508090262                                                                     
+38501130341                                                                     
+38502192798                                                                     
+38408282739                                                                     
+38509052748                                                                     
+38408214910                                                                     
+38312292255                                                                     
+
+ID                                                                              
+---------------------------------                                               
+48405060298                                                                     
+38601010295                                                                     
+38209180288                                                                     
+38511072718                                                                     
+38601244229                                                                     
+38404073717                                                                     
+38504096536                                                                     
+38502286036                                                                     
+38412120324                                                                     
+37904260339                                                                     
+38506024913                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38411192723                                                                     
+38001090239                                                                     
+38508110010                                                                     
+38501160374                                                                     
+38602270044                                                                     
+38211260212                                                                     
+38509050231                                                                     
+38508160288                                                                     
+38412050036                                                                     
+38507174211                                                                     
+48508300240                                                                     
+
+ID                                                                              
+---------------------------------                                               
+48201190300                                                                     
+48503202247                                                                     
+38507110394                                                                     
+38606280259                                                                     
+38506264222                                                                     
+38302234231                                                                     
+38507152729                                                                     
+38401270240                                                                     
+38502230315                                                                     
+48509216027                                                                     
+38304156510                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38504230317                                                                     
+38005142760                                                                     
+38312076010                                                                     
+38407270018                                                                     
+38501144221                                                                     
+38507256511                                                                     
+38312152754                                                                     
+38506074232                                                                     
+38406120312                                                                     
+38505254711                                                                     
+38512016517                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38501040331                                                                     
+38508274211                                                                     
+48506214224                                                                     
+38302050247                                                                     
+48406140336                                                                     
+38509182228                                                                     
+38412220304                                                                     
+38507216529                                                                     
+38412145239                                                                     
+38507170269                                                                     
+38602190236                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38509046515                                                                     
+38501224213                                                                     
+48501080016                                                                     
+38610290307                                                                     
+38412140218                                                                     
+38511140264                                                                     
+38508130226                                                                     
+38512150360                                                                     
+38308026516                                                                     
+38508240028                                                                     
+38505050300                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38505050338                                                                     
+38511070262                                                                     
+38504140217                                                                     
+38511170330                                                                     
+38512030319                                                                     
+38412056542                                                                     
+38406185227                                                                     
+38406010331                                                                     
+38503150228                                                                     
+38406164913                                                                     
+38511255213                                                                     
+
+ID                                                                              
+---------------------------------                                               
+38406220268                                                                     
+38503140240                                                                     
+38412264225                                                                     
+39909090666                                                                     
+45802104566                                                                     
+48612103455                                                                     
+48212301111                                                                     
+39005280222                                                                     
+39105280222                                                                     
+38603110222                                                                     
+
+208 rows selected.
+
+SQL> l
+  1  select id from kandidaadid
+  2* 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2    2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3    3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4    4  FROM kandidaadid
+  5    5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6    6  WHERE substr(id,1,1)=y.sugu
+  7    7  GROUP BY substr(id,1,1)) s,
+  8    8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9    9  FROM kandidaadid
+ 10   10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11   11* WHERE s.hinne=a.hinne AND s.sugu=4
+ 12  
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2    2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3    3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4    4  FROM kandidaadid
+  5    5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6    6  WHERE substr(id,1,1)=y.sugu
+  7    7  GROUP BY substr(id,1,1)) s,
+  8    8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9    9  FROM kandidaadid
+ 10   10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11*  11* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> 2
+  2*   2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+SQL> 2 FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+SQL> 3 FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> 4 FROM kandidaadid
+SQL> 5 GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+SQL> 6 WHERE substr(id,1,1)=y.sugu
+SQL> 7 GROUP BY substr(id,1,1)) s,
+SQL> 8 (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> 8 (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> 9 FROM kandidaadid
+SQL> 10 GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+SQL> 11 WHERE s.hinne=a.hinne AND s.sugu=4;
+SQL> r
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9  FROM kandidaadid
+ 10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11* WHERE s.hinne=a.hinne AND s.sugu=4
+GROUP BY substr(id,1,1)) s,
+                *
+ERROR at line 7:
+ORA-00904: "ID": invalid identifier 
+
+
+SQL> 11
+ 11* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> l
+  1  SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  4  FROM kandidaadid
+  5  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  6  WHERE substr(id,1,1)=y.sugu
+  7  GROUP BY substr(id,1,1)) s,
+  8  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  9  FROM kandidaadid
+ 10  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 11* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> 1
+  1* SELECT s.sugu as sugu, y.aasta as aasta, s.hinne as tulemus
+SQL> c*y.*a.
+  1* SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+SQL> 2
+  2* FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+SQL> I
+  3i FROM kandidaadid,
+  4i l
+  5i /
+FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+*
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> l
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  l
+  5  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  6  FROM kandidaadid
+  7  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  8  WHERE substr(id,1,1)=y.sugu
+  9  GROUP BY substr(id,1,1)) s,
+ 10  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 11  FROM kandidaadid
+ 12  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 13* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> del 4
+SQL> l
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> 4
+  4* FROM (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> c/FROM (/(
+  4* (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> l
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> 9
+  9* (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> c/DATE(substr(id,1,1)/DATE(substr(id,2,6)
+  9* (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> l
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> 4
+  4* (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,1,1),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> c/DATE(substr(id,1,1)/DATE(substr(id,2,6)
+  4* (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+SQL> l
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+SQL> r
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+
+SUGU         AASTA           TULEMUS                                            
+------------ ------------ ----------                                            
+4            1986                 93                                            
+
+SQL> spo off

@@ -1,0 +1,92 @@
+SQL> SELECT EESNIMI, PERENIMI, ROUND(AVG(NVL(PUNKTID,0)),1) AS "KESKMINE PUNKTISAAK"
+  2  FROM YLIOPILASED Y
+  3  LEFT JOIN KADUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+  4  GROUP EESNIMI, PERENIMI;
+GROUP EESNIMI, PERENIMI
+      *
+ERROR at line 4:
+ORA-00924: missing BY keyword 
+
+
+SQL> L
+  1  SELECT EESNIMI, PERENIMI, ROUND(AVG(NVL(PUNKTID,0)),1) AS "KESKMINE PUNKTISAAK"
+  2  FROM YLIOPILASED Y
+  3  LEFT JOIN KADUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+  4* GROUP EESNIMI, PERENIMI
+SQL> 4
+  4* GROUP EESNIMI, PERENIMI
+SQL> C*GROUP*GROUP BY
+  4* GROUP BY EESNIMI, PERENIMI
+SQL> R
+  1  SELECT EESNIMI, PERENIMI, ROUND(AVG(NVL(PUNKTID,0)),1) AS "KESKMINE PUNKTISAAK"
+  2  FROM YLIOPILASED Y
+  3  LEFT JOIN KADUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+  4* GROUP BY EESNIMI, PERENIMI
+LEFT JOIN KADUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+          *
+ERROR at line 3:
+ORA-00942: table or view does not exist 
+
+
+SQL> 3
+  3* LEFT JOIN KADUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+SQL> C*KADU*KODU
+  3* LEFT JOIN KODUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+SQL> R
+  1  SELECT EESNIMI, PERENIMI, ROUND(AVG(NVL(PUNKTID,0)),1) AS "KESKMINE PUNKTISAAK"
+  2  FROM YLIOPILASED Y
+  3  LEFT JOIN KODUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+  4* GROUP BY EESNIMI, PERENIMI
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KESKMINE PUNKTISAAK               
+--------------------------------------------- -------------------               
+Tarmo                                                                           
+Kuusk                                                           0               
+                                                                                
+Salme                                                                           
+Saar                                                          8.5               
+                                                                                
+Katrin                                                                          
+Kask                                                          6.4               
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KESKMINE PUNKTISAAK               
+--------------------------------------------- -------------------               
+Liina                                                                           
+Vaher                                                         8.8               
+                                                                                
+Kairi                                                                           
+M„nd                                                          7.5               
+                                                                                
+
+SQL> SELECT TOO_NR, COUNT(*) AS ARV
+  2  FROM KODUYLESANDED K
+  3  LEFT JOIN OPPEAINED O ON(O.KOOD=K.KURSUSEKOOD)
+  4  WHERE O.KOOK='I319' GROUP BY TOO_NR;
+WHERE O.KOOK='I319' GROUP BY TOO_NR
+      *
+ERROR at line 4:
+ORA-00904: "O"."KOOK": invalid identifier 
+
+
+SQL> 4
+  4* WHERE O.KOOK='I319' GROUP BY TOO_NR
+SQL> C*KOOK*KOOD
+  4* WHERE O.KOOD='I319' GROUP BY TOO_NR
+SQL> R
+  1  SELECT TOO_NR, COUNT(*) AS ARV
+  2  FROM KODUYLESANDED K
+  3  LEFT JOIN OPPEAINED O ON(O.KOOD=K.KURSUSEKOOD)
+  4* WHERE O.KOOD='I319' GROUP BY TOO_NR
+
+    TOO_NR        ARV                                                           
+---------- ----------                                                           
+         1          3                                                           
+         2          1                                                           
+         3          2                                                           
+
+SQL> SPO OFF

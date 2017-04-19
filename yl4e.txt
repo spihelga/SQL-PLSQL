@@ -1,0 +1,302 @@
+﻿SQL> describe yliopilased
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 CHAR(8)
+ EESNIMI                                            VARCHAR2(15)
+ PERENIMI                                           VARCHAR2(15)
+
+SQL> describe koduylesanded
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ YLIOPILASE_ID                                      CHAR(8)
+ KURSUSEKOOD                                        VARCHAR2(6)
+ KUUPAEV                                            DATE
+ TOO_NR                                             NUMBER(2)
+ FAILINIMI                                          VARCHAR2(20)
+ PUNKTID                                            NUMBER(4,1)
+
+SQL> describe oppeained
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ KOOD                                               VARCHAR2(6)
+ OPPEJOUD                                           VARCHAR2(20)
+ NIMETUS                                            VARCHAR2(40)
+                                     
+
+
+
+SQL> SELECT Y.EESNIMI, Y.PERENIMI, K.KUUPAEV, K.TOO_NR AS "YLESANDE NR.", K.PUNKTID AS PUNKTE, K.FAILINIMI AS FAIL
+  2  FROM YLIOPILASED Y
+  3  JOIN KODUYLESANDED K ON(Y.ID=K.YLIOPILASE_ID);
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+Kairi                                                                           
+M„nd                                          01-JUN-03                  1      
+        10 t7.txt                                                               
+                                                                                
+Salme                                                                           
+Saar                                          11-JUL-03                  1      
+        10 t8.txt                                                               
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+                                                                                
+Katrin                                                                          
+Kask                                          11-JUN-04                  2      
+         7 t2.txt                                                               
+                                                                                
+Liina                                                                           
+Vaher                                         11-JUN-04                  3      
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+         8 t3.txt                                                               
+                                                                                
+Katrin                                                                          
+Kask                                          11-JUN-03                  1      
+         5 t1.txt                                                               
+                                                                                
+Katrin                                                                          
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+Kask                                          12-JUN-03                  1      
+         7  t2.txt                                                              
+                                                                                
+Katrin                                                                          
+Kask                                          17-JUN-03                  1      
+         8 t3.txt                                                               
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+Kairi                                                                           
+M„nd                                          01-JUN-03                  1      
+        10 t7.txt                                                               
+                                                                                
+Salme                                                                           
+Saar                                          11-JUL-03                  1      
+        10 t8.txt                                                               
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+                                                                                
+Katrin                                                                          
+Kask                                          21-JUN-03                  2      
+       6.5 t4.txt                                                               
+                                                                                
+Salme                                                                           
+Saar                                          22-JUN-03                  3      
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+       5.5 T5.txt                                                               
+                                                                                
+Liina                                                                           
+Vaher                                         23-JUN-03                  1      
+       9.5 t6.txt                                                               
+                                                                                
+Kairi                                                                           
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+M„nd                                          11-AUG-03                  2      
+       2.5 t9                                                                   
+                                                                                
+Katrin                                                                          
+Kask                                          25-MAY-03                  1      
+         5 01.txt                                                               
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KUUPAEV         YLESANDE NR.      
+--------------------------------------------- --------------- ------------      
+    PUNKTE FAIL                                                                 
+---------- ------------------------------------------------------------         
+Katrin                                                                          
+Kask                                          12-MAR-03                  3      
+         6 01.txt                                                               
+                                                                                
+
+15 rows selected.
+
+
+SQL> SELECT* FROM KODUYLESANDED
+  2  ;
+
+YLIOPILASE_ID            KURSUSEKOOD        KUUPAEV             TOO_NR          
+------------------------ ------------------ --------------- ----------          
+FAILINIMI                                                       PUNKTID         
+------------------------------------------------------------ ----------         
+10020014                 I319               01-JUN-03                1          
+t7.txt                                                               10         
+                                                                                
+10020015                 I319               11-JUL-03                1          
+t8.txt                                                               10         
+                                                                                
+10020011                 I319               11-JUN-04                2          
+t2.txt                                                                7         
+                                                                                
+
+YLIOPILASE_ID            KURSUSEKOOD        KUUPAEV             TOO_NR          
+------------------------ ------------------ --------------- ----------          
+FAILINIMI                                                       PUNKTID         
+------------------------------------------------------------ ----------         
+10020013                 I319               11-JUN-04                3          
+t3.txt                                                                8         
+                                                                                
+10020011                 Iad307             11-JUN-03                1          
+t1.txt                                                                5         
+                                                                                
+10020011                 Id310              12-JUN-03                1          
+ t2.txt                                                               7         
+                                                                                
+
+YLIOPILASE_ID            KURSUSEKOOD        KUUPAEV             TOO_NR          
+------------------------ ------------------ --------------- ----------          
+FAILINIMI                                                       PUNKTID         
+------------------------------------------------------------ ----------         
+10020011                 ID218              17-JUN-03                1          
+t3.txt                                                                8         
+                                                                                
+10020014                 Iad307             01-JUN-03                1          
+t7.txt                                                               10         
+                                                                                
+10020015                 Iad307             11-JUL-03                1          
+t8.txt                                                               10         
+                                                                                
+
+YLIOPILASE_ID            KURSUSEKOOD        KUUPAEV             TOO_NR          
+------------------------ ------------------ --------------- ----------          
+FAILINIMI                                                       PUNKTID         
+------------------------------------------------------------ ----------         
+10020011                 Iad307             21-JUN-03                2          
+t4.txt                                                              6.5         
+                                                                                
+10020015                 Id309              22-JUN-03                3          
+T5.txt                                                              5.5         
+                                                                                
+10020013                 ID218              23-JUN-03                1          
+t6.txt                                                              9.5         
+                                                                                
+
+YLIOPILASE_ID            KURSUSEKOOD        KUUPAEV             TOO_NR          
+------------------------ ------------------ --------------- ----------          
+FAILINIMI                                                       PUNKTID         
+------------------------------------------------------------ ----------         
+10020014                 Iad307             11-AUG-03                2          
+t9                                                                  2.5         
+                                                                                
+10020011                 I319               25-MAY-03                1          
+01.txt                                                                5         
+                                                                                
+10020011                 I319               12-MAR-03                3          
+01.txt                                                                6         
+                                                                                
+
+15 rows selected.
+
+SQL> SELECT* FROM YLIOPILASED
+  2  ;
+
+ID                       EESNIMI                                                
+------------------------ ---------------------------------------------          
+PERENIMI                                                                        
+---------------------------------------------                                   
+10020011                 Katrin                                                 
+Kask                                                                            
+                                                                                
+10020012                 Tarmo                                                  
+Kuusk                                                                           
+                                                                                
+10020014                 Kairi                                                  
+M„nd                                                                            
+                                                                                
+
+ID                       EESNIMI                                                
+------------------------ ---------------------------------------------          
+PERENIMI                                                                        
+---------------------------------------------                                   
+10020015                 Salme                                                  
+Saar                                                                            
+                                                                                
+10020013                 Liina                                                  
+Vaher                                                                           
+
+
+SQL> R
+  1* SELECT PERENIMI, EESNIMI FROM YLIOPILASED Y LEFT OUTER JOIN KODUYLESANDED K ON (Y.ID=K.YLIOPILASE_ID) WHERE K.KUUPAEV IS NULL
+
+PERENIMI                                                                        
+---------------------------------------------                                   
+EESNIMI                                                                         
+---------------------------------------------                                   
+Kuusk                                                                           
+Tarmo                                                                           
+
+
+SQL> SELECT * FROM SUGUPUU;
+
+NIMI                                                KOOD    ISAKOOD    EMAKOOD  
+--------------------------------------------- ---------- ---------- ----------  
+Indrek                                                 1          3          8  
+Arno                                                   2          3          8  
+Taavi                                                  3          7          5  
+Mari                                                   4          6          5  
+Leena                                                  5         10         23  
+Voldemar                                               6         22         43  
+Jaanus                                                 7         11         20  
+Karin                                                  8         25         50  
+Tambet                                                 9          1          4  
+Anne                                                  12          1          4  
+Liis                                                  13          2         18  
+
+11 rows selected.
+
+
+
+SQL> SELECT iii.* FROM sugupuu i RIGHT OUTER JOIN sugupuu ii ON(ii.emakood=i.kood)
+  2  RIGHT OUTER JOIN sugupuu iii ON(iii.emakood=ii.kood OR iii.isakood=ii.kood)
+  3  WHERE i.nimi='Karin';
+
+NIMI                                                KOOD    ISAKOOD    EMAKOOD  
+--------------------------------------------- ---------- ---------- ----------  
+Anne                                                  12          1          4  
+Tambet                                                 9          1          4  
+Liis                                                  13          2         18  
+
+SQL> spo off

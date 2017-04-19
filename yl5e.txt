@@ -1,0 +1,130 @@
+﻿SQL> R
+  1  SELECT EESNIMI, PERENIMI, ROUND(AVG(NVL(PUNKTID,0)),1) AS "KESKMINE PUNKTISAAK"
+  2  FROM YLIOPILASED Y
+  3  LEFT JOIN KODUYLESANDED K ON(K.YLIOPILASE_ID=Y.ID)
+  4* GROUP BY EESNIMI, PERENIMI
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KESKMINE PUNKTISAAK               
+--------------------------------------------- -------------------               
+Tarmo                                                                           
+Kuusk                                                           0               
+                                                                                
+Salme                                                                           
+Saar                                                          8.5               
+                                                                                
+Katrin                                                                          
+Kask                                                          6.4               
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                      KESKMINE PUNKTISAAK               
+--------------------------------------------- -------------------               
+Liina                                                                           
+Vaher                                                         8.8               
+                                                                                
+Kairi                                                                           
+M„nd                                                          7.5               
+                                                                                
+
+
+SQL> R
+  1  SELECT TOO_NR, COUNT(*) AS ARV
+  2  FROM KODUYLESANDED K
+  3  LEFT JOIN OPPEAINED O ON(O.KOOD=K.KURSUSEKOOD)
+  4* WHERE O.KOOD='I319' GROUP BY TOO_NR
+
+    TOO_NR        ARV                                                           
+---------- ----------                                                           
+         1          3                                                           
+         2          1                                                           
+         3          2                                                           
+
+SQL> SPO OFF
+
+
+SQL> r
+  1  SELECT s.sugu as sugu, a.aasta as aasta, s.hinne as tulemus
+  2  FROM (SELECT substr(id,1,1) as sugu, max(y.hinne) as hinne
+  3  FROM kandidaadid,
+  4  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+  5  FROM kandidaadid
+  6  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) y
+  7  WHERE substr(id,1,1)=y.sugu
+  8  GROUP BY substr(id,1,1)) s,
+  9  (SELECT substr(id,1,1) as sugu, TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY') as aasta, AVG(EMAKEEL) as hinne
+ 10  FROM kandidaadid
+ 11  GROUP BY substr(id,1,1), TO_CHAR(TO_DATE(substr(id,2,6),'RRMMDD'),'YYYY')) a
+ 12* WHERE s.hinne=a.hinne AND s.sugu=4
+
+SUGU         AASTA           TULEMUS                                            
+------------ ------------ ----------                                            
+4            1986                 93
+
+
+SQL> r
+  1  SELECT o.nimetus, eesnimi, perenimi, AVG(h.punktid) as keskmine
+  2  FROM koduylesanded h, oppeained o, yliopilased y
+  3  WHERE o.kood=h.kursusekood AND y.id=h.yliopilase_id GROUP BY h.kursusekood, o.nimetus, h.yliopilase_id, y.eesnimi, y.perenimi
+  4  HAVING AVG(h.punktid)=(SELECT MAX(AVG(hh.punktid))
+  5  FROM koduylesanded hh
+  6* WHERE hh.kursusekood=h.kursusekood GROUP BY hh.kursusekood, hh.yliopilase_id)
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+Digitaalkommunikatsioon                                                         
+Salme                                                                           
+Saar                                                  10                        
+                                                                                
+Oracle:  SQL ja PL/SQL                                                          
+Salme                                                                           
+Saar                                                  10                        
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+                                                                                
+Digitaalne heli- ja pildit””tlus                                                
+Salme                                                                           
+Saar                                                 5.5                        
+                                                                                
+Oracle:  SQL ja PL/SQL                                                          
+Kairi                                                                           
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+M„nd                                                  10                        
+                                                                                
+Riistvaral„hedane programmeerimine                                              
+Liina                                                                           
+Vaher                                                9.5                        
+                                                                                
+Operatsioonissteemide tehnoloogia                                              
+
+NIMETUS                                                                         
+--------------------------------------------------------------------------------
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                        KESKMINE                        
+--------------------------------------------- ----------                        
+Katrin                                                                          
+Kask                                                   7                        
+                                                                                
+
+6 rows selected.
+
+spo off                                       
+

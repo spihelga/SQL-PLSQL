@@ -2554,3 +2554,5 @@ Maasikas
 154 rows selected.
 
 SQL> spo off
+
+Keegi oli ID tulpa lisanud mitu rida väärtusega "Vassilina", selletõttu ei andnud õige SQL süntaks õiget tulemust. Selleks, et see viga üles leida läks umbes 3 tundi. 

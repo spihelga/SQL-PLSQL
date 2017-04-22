@@ -1,0 +1,19 @@
+SET SERVEROUTPUT ON
+SET VERIFY OFF
+ACCEPT oppeaine PROMPT 'Õppeaine: '
+ACCEPT nimi PROMPT 'Õpilase nimi: '
+DECLARE
+tkokku number(2);
+pkokku number(3);
+begin
+SELECT COUNT(yliopilase_id) INTO tkokku
+FROM lepikult.koduylesanded k, lepikult.yliopilased y, lepikult.oppeained o
+WHERE k.yliopilase_id=y.id AND k.kursusekood=o.kood AND UPPER(nimetus) LIKE UPPER('%&&oppeaine%') AND UPPER(eesnimi) || ' ' || UPPER(perenimi) LIKE UPPER('%&&nimi%');
+dbms_output.put_line('&&nimi' || ' on saatnud ' || tkokku || ' tööd aines ' || '&&oppeaine');
+SELECT SUM(punktid) INTO pkokku
+FROM lepikult.koduylesanded k, lepikult.yliopilased y, lepikult.oppeained o
+WHERE k.yliopilase_id=y.id AND k.kursusekood=o.kood AND UPPER(nimetus) LIKE UPPER('%&&oppeaine%') AND UPPER(eesnimi) || ' ' || UPPER(perenimi) LIKE UPPER('%&&nimi%');
+dbms_output.put_line('&&nimi' || ' on saanud õppeaines ' || '&&oppeaine ' || pkokku || ' punkti');
+end;
+.
+run

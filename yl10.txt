@@ -1,0 +1,8 @@
+variable parim number
+BEGIN
+SELECT max(voorkeel)INTO :parim FROM lepikult.kandidaadid;
+END;
+.
+run
+
+SELECT eesnimi || ', ' || perenimi AS nimi, (:parim - voorkeel) AS vahe FROM lepikult.kandidaadid ORDER BY vahe ASC;

@@ -1,0 +1,203 @@
+SQL> GRANT SELECT ON oppeained to SPihelgas
+  2  ;
+
+Grant succeeded.
+///////////////////////////////////////////////////////////////
+SQL> CREATE TABLE minu_oppeained AS (SELECT* FROM scott.oppeained);
+
+Table created.
+
+SQL> r
+  1* CREATE TABLE uued_oppeained AS (SELECT* FROM scott.uued_oppeained)
+
+Table created.
+
+SQL> SELECT* FROM MINU_OPPEAINED;
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I319               Toomas Lepikult
+Oracle:  SQL ja PL/SQL
+
+Id310              Vladimir Viies
+Operatsioonis?steemide tehnoloogia
+
+Iad307             Heldur Haak
+Digitaalkommunikatsioon
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+Id309              Peeter Marvet
+Digitaalne heli- ja pildit””tlus
+
+ID218              Toomas Kont
+Riistvaral„hedane programmeerimine
+
+
+SQL> INSERT INTO MINU_OPPEAINED VALUES('I365', 'Maili Markvardt', 'Tarkvara testimise alused');
+
+1 row created.
+
+SQL> R
+  1* INSERT INTO MINU_OPPEAINED VALUES('I234', 'Urmas Kukk', 'Tarkvara õiguskaitse')
+
+1 row created.
+
+SQL> SELECT* FROM MINU_OPPEAINED;
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I319               Toomas Lepikult
+Oracle:  SQL ja PL/SQL
+
+Id310              Vladimir Viies
+Operatsioonis?steemide tehnoloogia
+
+Iad307             Heldur Haak
+Digitaalkommunikatsioon
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+Id309              Peeter Marvet
+Digitaalne heli- ja pildit””tlus
+
+ID218              Toomas Kont
+Riistvaral„hedane programmeerimine
+
+I365               Maili Markvardt
+Tarkvara testimise alused
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I234               Urmas Kukk
+Tarkvara õiguskaitse
+
+
+7 rows selected.
+
+SQL> SAVEPOINT ADDED;
+
+Savepoint created.
+
+SQL> MERGE INTO MINU_OPPEAINED M
+  2  USING UUED_OPPEAINED U
+  3  ON (U.KOOD=M.KOOD)
+  4  WHEN MATCHED THEN UPDATE SET M.OPPEJOUD=U.OPPEJOUD, M.NIMETUS=U.NIMETUS
+  5  WHEN NOT MATCHED THEN
+  6  INSERT (KOOD, OPPEJOUD, NIMETUS)
+  7  VALUES (U.KOOD, U.OPPEJOUD, U.NIMETUS)
+  8  ;
+
+4 rows merged.
+
+SQL> SELECT* FROM MINU_OPPEAINED;
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I319               Toomas Lepikult
+Oracle:  SQL ja PL/SQL
+
+Id310              Vladimir Viies
+Operatsioonis?steemide tehnoloogia
+
+Iad307             Heldur Haak
+Digitaalkommunikatsioon
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+Id309              Riivo Senk
+Digitaalne heli- ja pilditöötlus
+
+ID218              Toomas Kont
+Riistvaral„hedane programmeerimine
+
+I365               Maili Markvardt
+Tarkvara testimise alused
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I234               Urmas Kukk
+Tarkvara õiguskaitse
+
+Id221              Guido Kangur
+Näitlemine
+
+Id404              Ossa Issand
+Filosoofia
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+Id553              Heli Kopter
+Lennundus
+
+
+10 rows selected.
+
+SQL> ROLLBACK TO ADDED;
+
+Rollback complete.
+
+SQL> SELECT* FROM MINU_OPPEAINED;
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I319               Toomas Lepikult
+Oracle:  SQL ja PL/SQL
+
+Id310              Vladimir Viies
+Operatsioonis?steemide tehnoloogia
+
+Iad307             Heldur Haak
+Digitaalkommunikatsioon
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+Id309              Peeter Marvet
+Digitaalne heli- ja pildit””tlus
+
+ID218              Toomas Kont
+Riistvaral„hedane programmeerimine
+
+I365               Maili Markvardt
+Tarkvara testimise alused
+
+
+KOOD               OPPEJOUD
+------------------ ------------------------------------------------------------
+NIMETUS
+--------------------------------------------------------------------------------
+I234               Urmas Kukk
+Tarkvara õiguskaitse
+
+
+7 rows selected.
+

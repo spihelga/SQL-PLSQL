@@ -1,0 +1,95 @@
+GRANT SELECT ON oppeained to SPihelgas;
+GRANT SELECT ON koduylesanded to SPihelgas;
+GRANT SELECT ON yliopilased to SPihelgas;
+//////////////////////////////////////////////////////////////
+
+CREATE TABLE Oracleyl(
+idk NUMBER(11) NOT NULL,
+eesnimi VARCHAR2(15),
+perenimi VARCHAR(15),
+yl_1 NUMBER(3,1) NOT NULL,
+yl_2 NUMBER(3,1) NOT NULL,
+yl_3 NUMBER(3,1) NOT NULL,
+kokku NUMBER(4,1),
+arvestus VARCHAR2(2));
+
+INSERT INTO Oracleyl
+SELECT DISTINCT
+id,
+eesnimi,
+perenimi,
+(SELECT NVL(MAX(punktid),0) FROM lepikult.koduylesanded k WHERE k.yliopilase_id=y.id AND k.kursusekood=o.kood AND too_nr=1) AS yl_1,
+(SELECT NVL(MAX(punktid),0) FROM lepikult.koduylesanded k WHERE k.yliopilase_id=y.id AND k.kursusekood=o.kood AND too_nr=2) AS yl_2,
+(SELECT NVL(MAX(punktid),0) FROM lepikult.koduylesanded k WHERE k.yliopilase_id=y.id AND k.kursusekood=o.kood AND too_nr=3) AS yl_3,
+NULL,
+NULL
+FROM lepikult.yliopilased y, lepikult.oppeained o
+WHERE nimetus='Oracle: SQL ja PL/SQL';
+
+UPDATE Oracleyl SET kokku=yl_1 + yl_2 + yl_3, arvestus=DECODE(TRUNC((yl_1 + yl_2 + yl_3)/14),0,'MA','A');
+
+SELECT* FOMR Oracleyl;
+
+CREATE TABLE lugejad (
+eesnimi VARCHAR2(15) NOT NULL,
+perenimi VARCHAR2(15) NOT NULL,
+ik NUMBER(11),
+aadress VARCHAR2(40),
+tel VARCHAR2(15),
+epost VARCHAR2(40),
+CONSTRAINT ik_pk PRIMARY KEY(ik));
+
+CREATE TABLE raamatud (
+shiffer NUMBER(11),
+autor(id) VARCHAR2(30) NOT NULL,
+pealkiri VARCHAR2(25) NOT NULL,
+hind NUMBER(4),
+kogus NUMBER(3),
+CONSTRAINT shiffer_pk PRIMARY KEY(shiffer));
+
+CREATE TABLE laenutused(
+laenutus NUMBER(11),
+laenaja_id NUMBER(11),
+raamatush NUMBER(11),
+laenutamine DATE NOT NULL,
+tagastamine DATE,
+CONSTRAINT laenutus_pk PRIMARY KEY(laenutus),
+CONSTRAINT laenaja_id_fk FOREIGN KEY(laenaja_id) REFERENCES lugejad(ik),
+CONSTRAINT raamatush_fk FOREIGN KEY(raamatush) REFERENCES raamatud(shiffer));
+
+INSERT INTO lugejad VALUES('Jennifer', 'Bow', 48902200202, 'Pidu 15, Tallinn', 53029486, 'jb@saf.com');
+INSERT INTO lugejad VALUES('Peeter', 'Paan', 38902200202, 'Pidu 14, Tallinn', 53029487, 'pp@saf.com');
+INSERT INTO lugejad VALUES('Lenna', 'Päike', 48902200203, 'Pidu 11, Tallinn', 53029488, 'lp@saf.com');
+INSERT INTO lugejad VALUES('Paul', 'Rüblik', 38902200205, 'Pidu 10, Tallinn', 53029489, 'pr@saf.com');
+
+INSERT INTO raamatud VALUES(1, 'Andrew Birch', 'Planet Earth', 100, 10);
+INSERT INTO raamatud VALUES(2, 'Mark Sun', 'Genius', 50, 20);
+INSERT INTO raamatud VALUES(3, 'Helju Purikas', 'Tänava keel', 200, 5);
+
+INSERT INTO laenutused VALUES(1, 48902200202, 1, TO_DATE(20.04.2017, 'dd.mm.yy'), NULL;
+INSERT INTO laenutused VALUES(2, 38902200202, 2, TO_DATE(10.04.2017, 'dd.mm.yy'), TO_DATE(20.04.2017, 'dd.mm.yy');
+INSERT INTO laenutused VALUES(3, 48902200203, 3, TO_DATE(02.02.2017, 'dd.mm.yy'), NULL;
+INSERT INTO laenutused VALUES(4, 38902200202, 1, TO_DATE(01.03.2017, 'dd.mm.yy'), TO_DATE(02.03.2017, 'dd.mm.yy');
+
+SELECT* FROM lugejad;
+SELECT* FROM raamatud;
+SELECT* FROM launutused;
+
+SELECT eesnimi, perenimi, autor(id), pealkiri, laenutamine
+FROM lugejad, raamatud, laenutused
+WHERE shiffer=raamatush AND ik=laenaja_id AND SYSDATE-laenutamine>14;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

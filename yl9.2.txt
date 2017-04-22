@@ -1,0 +1,6 @@
+SELECT perenimi || ', ' || eesnimi AS NIMI, punktid, ROWNUM rida
+FROM (SELECT y.eesnimi, y.perenimi, k.punktid 
+FROM lepikult.yliopilased y, lepikult.koduylesanded k, lepikult.oppeained o
+WHERE y.id=k.yliopilase_ID AND k.kursusekood=o.kood AND UPPER(o.nimetus) LIKE UPPER ('%Oracle%')
+ORDER BY punktid DESC)
+WHERE rownum<=2;

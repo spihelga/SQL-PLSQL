@@ -1,0 +1,4 @@
+CREATE VIEW summa AS
+SELECT y.perenimi || ', ' || y.eesnimi AS NIMI, sum(k.punktid) AS PUNKTID
+FROM syliopilased y, skoduylesanded k, soppeained o
+WHERE UPPER(nimetus) LIKE UPPER ('%Oracle%') AND k.kursusekood=o.kood AND k.yliopilase_id=y.id GROUP BY y.perenimi || ', ' || y.eesnimi;

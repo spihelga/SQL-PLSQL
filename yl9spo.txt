@@ -1,0 +1,121 @@
+SQL> start yl9.txt
+CREATE TABLE talled (id NUMBER, sugu VARCHAR2(4), synnikaal NUMBER(3), synniaeg DATE)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE sequence utts increment by 2 minvalue 2
+                *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE sequence jaars increment by 2 minvalue 1
+                *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+Sisesta sugu - utt või jaar: utt
+Sisesta synnikaal kilodes: 4
+old   1: INSERT INTO talled(id, sugu, synnikaal, synniaeg) VALUES ((decode(upper('&&sugu'),'UTT',utts.nextval,'JAAR',jaars.nextval)),'&&sugu','&&synnikaal',sysdate)
+new   1: INSERT INTO talled(id, sugu, synnikaal, synniaeg) VALUES ((decode(upper('utt'),'UTT',utts.nextval,'JAAR',jaars.nextval)),'utt','4',sysdate)
+
+1 row created.
+
+SQL> select*from talled;
+
+        ID SUGU          SYNNIKAAL SYNNIAEG                                     
+---------- ------------ ---------- ---------------                              
+         2 utt                   4 22-APR-17                                    
+        42 utt                   4 22-APR-17                                    
+
+SQL> drop table talled
+  2  ;
+
+Table dropped.
+
+SQL> drop sequence utts
+  2  ;
+
+Sequence dropped.
+
+SQL> drop sequence jaars;
+
+Sequence dropped.
+
+SQL> start yl9.txt
+
+Table created.
+
+
+Sequence created.
+
+
+Sequence created.
+
+Sisesta sugu - utt või jaar: utt
+Sisesta synnikaal kilodes: 4
+old   1: INSERT INTO talled(id, sugu, synnikaal, synniaeg) VALUES ((decode(upper('&&sugu'),'UTT',utts.nextval,'JAAR',jaars.nextval)),'&&sugu','&&synnikaal',sysdate)
+new   1: INSERT INTO talled(id, sugu, synnikaal, synniaeg) VALUES ((decode(upper('utt'),'UTT',utts.nextval,'JAAR',jaars.nextval)),'utt','4',sysdate)
+
+1 row created.
+
+SQL> select*from talled;
+
+        ID SUGU          SYNNIKAAL SYNNIAEG                                     
+---------- ------------ ---------- ---------------                              
+         2 utt                   4 22-APR-17                                    
+
+SQL> drop view summa;
+
+View dropped.
+
+SQL> start yl9.1.txt
+
+View created.
+
+SQL> select*from summa
+  2  ;
+
+NIMI                                                                            
+--------------------------------------------------------------------------------
+   PUNKTID                                                                      
+----------                                                                      
+Kask, Katrin                                                                    
+        27                                                                      
+                                                                                
+Saar, Salme                                                                     
+        16                                                                      
+                                                                                
+Vaher, Liina                                                                    
+         8                                                                      
+                                                                                
+
+NIMI                                                                            
+--------------------------------------------------------------------------------
+   PUNKTID                                                                      
+----------                                                                      
+M„nd, Kairi                                                                     
+        10                                                                      
+                                                                                
+
+SQL> start yl9.2.txt
+
+NIMI                                                                            
+--------------------------------------------------------------------------------
+   PUNKTID       RIDA                                                           
+---------- ----------                                                           
+M„nd, Kairi                                                                     
+        10          1                                                           
+                                                                                
+Saar, Salme                                                                     
+        10          2                                                           
+                                                                                
+
+SQL> start yl9.3.txt
+
+Grant succeeded.
+
+SQL> spo off

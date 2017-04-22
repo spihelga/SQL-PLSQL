@@ -1,0 +1,8 @@
+CREATE TABLE talled (id NUMBER, sugu VARCHAR2(4), synnikaal NUMBER(3), synniaeg DATE);
+CREATE sequence utts increment by 2 minvalue 2;
+CREATE sequence jaars increment by 2 minvalue 1;
+
+ACCEPT sugu PROMPT 'Sisesta sugu - utt või jaar: '
+ACCEPT synnikaal PROMPT 'Sisesta synnikaal kilodes: '
+
+INSERT INTO talled(id, sugu, synnikaal, synniaeg) VALUES ((decode(upper('&&sugu'),'UTT',utts.nextval,'JAAR',jaars.nextval)),'&&sugu','&&synnikaal',sysdate);

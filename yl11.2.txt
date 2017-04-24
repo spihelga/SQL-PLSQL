@@ -1,0 +1,43 @@
+SET SERVEROUTPUT ON
+
+ACCEPT idkood PROMPT 'Id-kood: ';
+ACCEPT enimi PROMPT 'Eesnimi: ';
+ACCEPT pnimi PROMPT 'Perenimi: ';
+ACCEPT mate PROMPT 'Matemaatika: ';
+ACCEPT vkeel PROMPT 'Võõrkeel: ';
+ACCEPT ekeel PROMPT 'Emakeel: ';
+
+DECLARE
+	lugeja integer;
+	kontroll boolean := false;
+BEGIN
+	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id=&&idkood;
+IF lugeja > 0 THEN
+	dbms_output.put_line('Selline ID-kood on juba olemas');	
+END IF;
+	IF lugeja = 0 THEN
+		IF length(&&idkood)!=11 THEN
+		dbms_output.put_line('Sisestatud ID-kood ei ole õige pikkusega');
+		ELSE
+
+			IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+			dbms_output.put_line('Sisestatud ID-kood ei ole number');
+			ELSE
+
+				IF '&&mate' < 0 OR '&&mate' >= 100 OR '&&mate'!=trunc('&&mate') OR '&&vkeel' < 0 OR '&&vkeel' >= 100 OR '&&vkeel'!=trunc('&&vkeel') OR '&&ekeel' < 0 OR '&&ekeel' >= 100 OR '&&ekeel'!=trunc('&&ekeel') THEN
+				dbms_output.put_line('Eksamitulemused ei ole korrektselt sisestatud');
+				ELSE
+				kontroll := true;				
+				END IF;
+			END IF;
+		END IF;
+	END IF;
+
+IF kontroll
+	THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+	dbms_output.put_line('Tulemused sisestatud');
+END IF;
+END;
+.
+/
+

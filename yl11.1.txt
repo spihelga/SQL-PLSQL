@@ -1,0 +1,27 @@
+SET SERVEROUTPUT ON
+DECLARE
+	byear CONSTANT integer := 83;
+        uyear CONSTANT integer := 84;
+	month VARCHAR2(2);
+	ppl integer;
+BEGIN
+	for year IN byear .. uyear
+	LOOP
+		for newmonth IN 1 .. 12
+		LOOP
+			IF newmonth < 10 THEN
+				month := '0' || newmonth;
+			ELSE month := newmonth;
+			END IF;
+	
+			SELECT COUNT(*) INTO ppl
+			FROM lepikult.kandidaadid
+			WHERE SUBSTR(id,2,2)=year AND SUBSTR(id,4,2)=month;
+			
+			dbms_output.put_line('19' || year || '. aasta ' || month || '. kuus on sündinud ' || ppl || 'inimest.');
+		END LOOP;
+	END LOOP;
+END;
+.
+/
+

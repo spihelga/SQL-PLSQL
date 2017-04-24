@@ -1,0 +1,230 @@
+SQL> start yl11.1.txt
+1983. aasta 01. kuus on sündinud 0inimest.                                      
+1983. aasta 02. kuus on sündinud 2inimest.                                      
+1983. aasta 03. kuus on sündinud 0inimest.                                      
+1983. aasta 04. kuus on sündinud 2inimest.                                      
+1983. aasta 05. kuus on sündinud 0inimest.                                      
+1983. aasta 06. kuus on sündinud 0inimest.                                      
+1983. aasta 07. kuus on sündinud 1inimest.                                      
+1983. aasta 08. kuus on sündinud 1inimest.                                      
+1983. aasta 09. kuus on sündinud 0inimest.                                      
+1983. aasta 10. kuus on sündinud 0inimest.                                      
+1983. aasta 11. kuus on sündinud 1inimest.                                      
+1983. aasta 12. kuus on sündinud 4inimest.                                      
+1984. aasta 01. kuus on sündinud 2inimest.                                      
+1984. aasta 02. kuus on sündinud 0inimest.                                      
+1984. aasta 03. kuus on sündinud 1inimest.                                      
+1984. aasta 04. kuus on sündinud 2inimest.                                      
+1984. aasta 05. kuus on sündinud 1inimest.                                      
+1984. aasta 06. kuus on sündinud 12inimest.                                     
+1984. aasta 07. kuus on sündinud 2inimest.                                      
+1984. aasta 08. kuus on sündinud 3inimest.                                      
+1984. aasta 09. kuus on sündinud 4inimest.                                      
+1984. aasta 10. kuus on sündinud 2inimest.                                      
+1984. aasta 11. kuus on sündinud 6inimest.                                      
+1984. aasta 12. kuus on sündinud 9inimest.                                      
+
+PL/SQL procedure successfully completed.
+
+SQL> start yl.11.2.txt
+Id-kood: 39101011112
+Eesnimi: E
+Perenimi: L
+Matemaatika: 903
+Võõrkeel: 94
+Emakeel: 95
+old   4: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   4: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='39101011112';
+old   6: 		IF length('&&idkood')!=11 THEN
+new   6: 		IF length('39101011112')!=11 THEN
+old   9: 		IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new   9: 		IF ((length(TRIM(TRANSLATE('39101011112', ' +-.0123456789', ' ')))) > 0) THEN
+old  12: 		IF '&&mate' > 0 AND '&&mate' <= 100 AND '&&mate'=trunc('&&mate') AND '&&vkeel' > 0 AND '&&vkeel' <= 100 AND '&&vkeel'=trunc('&&vkeel')  AND '&&ekeel' > 0 AND '&&ekeel' <= 100 AND '&&ekeel'=trunc('&&ekeel')
+new  12: 		IF '903' > 0 AND '903' <= 100 AND '903'=trunc('903') AND '94' > 0 AND '94' <= 100 AND '94'=trunc('94')  AND '95' > 0 AND '95' <= 100 AND '95'=trunc('95')
+old  13: 		THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  13: 		THEN INSERT INTO skandidaadid VALUES ('39101011112','E','L','903','94','95');
+Eksamitulemused ei ole korrektselt sisestatud                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> start yl.11.2.txt
+Id-kood: 31
+Eesnimi: E
+Perenimi: L
+Matemaatika: 90
+Võõrkeel: 90
+Emakeel: 90
+old   4: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   4: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='31';
+old   6: 		IF length('&&idkood')!=11 THEN
+new   6: 		IF length('31')!=11 THEN
+old   9: 		IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new   9: 		IF ((length(TRIM(TRANSLATE('31', ' +-.0123456789', ' ')))) > 0) THEN
+old  12: 		IF '&&mate' > 0 AND '&&mate' <= 100 AND '&&mate'=trunc('&&mate') AND '&&vkeel' > 0 AND '&&vkeel' <= 100 AND '&&vkeel'=trunc('&&vkeel')  AND '&&ekeel' > 0 AND '&&ekeel' <= 100 AND '&&ekeel'=trunc('&&ekeel')
+new  12: 		IF '90' > 0 AND '90' <= 100 AND '90'=trunc('90') AND '90' > 0 AND '90' <= 100 AND '90'=trunc('90')  AND '90' > 0 AND '90' <= 100 AND '90'=trunc('90')
+old  13: 		THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  13: 		THEN INSERT INTO skandidaadid VALUES ('31','E','L','90','90','90');
+Sisestatud ID-kood ei ole õige pikkusega                                        
+Tulemused sisestatud                                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> start yl11.2.txt
+Id-kood: 39101011112
+Eesnimi: E
+Perenimi: L
+Matemaatika: 90
+Võõrkeel: 90
+Emakeel: 90
+old   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='39101011112';
+old   9: 		IF length('&&idkood')!=11 THEN
+new   9: 		IF length('39101011112')!=11 THEN
+old  13: 			IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new  13: 			IF ((length(TRIM(TRANSLATE('39101011112', ' +-.0123456789', ' ')))) > 0) THEN
+old  17: 				IF '&&mate' < 0 AND '&&mate' => 100 AND '&&mate'!=trunc('&&mate') AND '&&vkeel' < 0 AND '&&vkeel' => 100 AND '&&vkeel'!=trunc('&&vkeel') AND '&&ekeel' < 0 AND '&&ekeel' => 100 AND '&&ekeel'!=trunc('&&ekeel')
+new  17: 				IF '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90')
+old  28: 	THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  28: 	THEN INSERT INTO skandidaadid VALUES ('39101011112','E','L','90','90','90');
+	check booleaan := false;
+	*
+ERROR at line 3:
+ORA-06550: line 3, column 2:
+PLS-00103: Encountered the symbol "CHECK" when expecting one of the following: 
+begin function pragma procedure subtype type <an identifier> 
+<a double-quoted delimited-identifier> current cursor delete 
+exists prior
+The symbol "begin was inserted before "CHECK" to continue.
+ORA-06550: line 17, column 26:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 17, column 77:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 17, column 128:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 18, column 5:
+PLS-00103: Encountered the symbol "DBMS_OUTPUT" when expecting one of the
+following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset
+The symbol "." was substituted for "DBMS_OUTPUT" to continue.
+ORA-06550: line 18, column 74:
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset 
+
+
+SQL> start yl11.2.txt
+Id-kood: 39101011112
+Eesnimi: E
+Perenimi: L
+Matemaatika: 90
+Võõrkeel: 90
+Emakeel: 90
+old   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='39101011112';
+old   9: 		IF length('&&idkood')!=11 THEN
+new   9: 		IF length('39101011112')!=11 THEN
+old  13: 			IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new  13: 			IF ((length(TRIM(TRANSLATE('39101011112', ' +-.0123456789', ' ')))) > 0) THEN
+old  17: 				IF '&&mate' < 0 AND '&&mate' => 100 AND '&&mate'!=trunc('&&mate') AND '&&vkeel' < 0 AND '&&vkeel' => 100 AND '&&vkeel'!=trunc('&&vkeel') AND '&&ekeel' < 0 AND '&&ekeel' => 100 AND '&&ekeel'!=trunc('&&ekeel')
+new  17: 				IF '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90')
+old  28: 	THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  28: 	THEN INSERT INTO skandidaadid VALUES ('39101011112','E','L','90','90','90');
+				IF '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' => 100 AND '90'!=trunc('90')
+				                     *
+ERROR at line 17:
+ORA-06550: line 17, column 26:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 17, column 77:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 17, column 128:
+PLS-00103: Encountered the symbol ">" when expecting one of the following: 
+* & = - + < / > at in is mod remainder not rem then 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec between || multiset member submultiset
+The symbol "* was inserted before ">" to continue.
+ORA-06550: line 18, column 5:
+PLS-00103: Encountered the symbol "DBMS_OUTPUT" when expecting one of the
+following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset
+The symbol "." was substituted for "DBMS_OUTPUT" to continue.
+ORA-06550: line 18, column 74:
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset 
+
+
+SQL> start yl11.2.txt
+Id-kood: 39101011112
+Eesnimi: E
+Perenimi: L
+Matemaatika: 90
+Võõrkeel: 90
+Emakeel: 90
+old   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='39101011112';
+old   9: 		IF length('&&idkood')!=11 THEN
+new   9: 		IF length('39101011112')!=11 THEN
+old  13: 			IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new  13: 			IF ((length(TRIM(TRANSLATE('39101011112', ' +-.0123456789', ' ')))) > 0) THEN
+old  17: 				IF '&&mate' < 0 AND '&&mate' >= 100 AND '&&mate'!=trunc('&&mate') AND '&&vkeel' < 0 AND '&&vkeel' >= 100 AND '&&vkeel'!=trunc('&&vkeel') AND '&&ekeel' < 0 AND '&&ekeel' >= 100 AND '&&ekeel'!=trunc('&&ekeel')
+new  17: 				IF '90' < 0 AND '90' >= 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' >= 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' >= 100 AND '90'!=trunc('90')
+old  28: 	THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  28: 	THEN INSERT INTO skandidaadid VALUES ('39101011112','E','L','90','90','90');
+				dbms_output.put_line('Eksamitulemused ei ole korrektselt sisestatud');
+				*
+ERROR at line 18:
+ORA-06550: line 18, column 5:
+PLS-00103: Encountered the symbol "DBMS_OUTPUT" when expecting one of the
+following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset
+The symbol "." was substituted for "DBMS_OUTPUT" to continue.
+ORA-06550: line 18, column 74:
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+. ( * % & - + / at mod remainder rem then <an exponent (**)> 
+and or || multiset 
+
+
+SQL> start yl11.2.txt
+Id-kood: 39101011112
+Eesnimi: E
+Perenimi: L
+Matemaatika: 90
+Võõrkeel: 90
+Emakeel: 90
+old   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='&&idkood';
+new   5: 	SELECT COUNT(*) INTO lugeja FROM skandidaadid WHERE id='39101011112';
+old   9: 		IF length('&&idkood')!=11 THEN
+new   9: 		IF length('39101011112')!=11 THEN
+old  13: 			IF ((length(TRIM(TRANSLATE('&&idkood', ' +-.0123456789', ' ')))) > 0) THEN
+new  13: 			IF ((length(TRIM(TRANSLATE('39101011112', ' +-.0123456789', ' ')))) > 0) THEN
+old  17: 				IF '&&mate' < 0 AND '&&mate' >= 100 AND '&&mate'!=trunc('&&mate') AND '&&vkeel' < 0 AND '&&vkeel' >= 100 AND '&&vkeel'!=trunc('&&vkeel') AND '&&ekeel' < 0 AND '&&ekeel' >= 100 AND '&&ekeel'!=trunc('&&ekeel') THEN
+new  17: 				IF '90' < 0 AND '90' >= 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' >= 100 AND '90'!=trunc('90') AND '90' < 0 AND '90' >= 100 AND '90'!=trunc('90') THEN
+old  28: 	THEN INSERT INTO skandidaadid VALUES ('&&idkood','&&enimi','&&pnimi','&&mate','&&vkeel','&&ekeel');
+new  28: 	THEN INSERT INTO skandidaadid VALUES ('39101011112','E','L','90','90','90');
+
+PL/SQL procedure successfully completed.
+
+SQL> spo off

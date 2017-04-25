@@ -1,0 +1,246 @@
+﻿SQL> CREATE TABLE postid(eesnimi varchar(15), perenimi varchar(15), epost varchar(30));
+
+Table created.
+
+SQL> INSERT INTO postid VALUES ('Helmut', 'Vares', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Vanessa', 'Siuts', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Pille', 'Juga', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Joonas', 'Mega', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Paul', 'Raud', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Kadi', 'Kilomeeter', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Kertu', 'Miil', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Jennifer', 'Tellis', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Andrus', 'Kivi', null);
+
+1 row created.
+
+SQL> select * from postid;
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Helmut                                                                          
+Vares                                                                           
+                                                                                
+                                                                                
+Vanessa                                                                         
+Siuts                                                                           
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+Pille                                                                           
+Juga                                                                            
+                                                                                
+                                                                                
+Joonas                                                                          
+Mega                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+                                                                                
+Paul                                                                            
+Raud                                                                            
+                                                                                
+                                                                                
+Kadi                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Kilomeeter                                                                      
+                                                                                
+                                                                                
+Kertu                                                                           
+Miil                                                                            
+                                                                                
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Jennifer                                                                        
+Tellis                                                                          
+                                                                                
+                                                                                
+Andrus                                                                          
+Kivi                                                                            
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+
+9 rows selected.
+              
+SQL> CREATE OR REPLACE PROCEDURE tee_mail
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  var1 varchar2(30);
+  9  var2 varchar2(30);
+ 10  kontroll integer;
+ 11  viga EXCEPTION;
+ 12          BEGIN
+ 13          FOR sisestus IN aadress
+ 14          LOOP
+ 15                  var1:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 16                  var2:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  var1:=SUBSTR(var1,1,8) || '@itcollege.ee';
+ 18                  var2:=SUBSTR(var2,1,8) || '@itcollege.ee';
+ 19                  SELECT COUNT(*) INTO kontroll FROM postid WHERE epost=var1;
+ 20  
+ 21                  IF kontroll=0 THEN
+ 22                  UPDATE postid SET epost=var1 WHERE CURRENT OF aadress;
+ 23                          ELSE IF kontroll!=0 THEN
+ 24                          UPDATE postid SET epost=var2 WHERE CURRENT OF aadress;
+ 25                  ELSE RAISE viga;
+ 26                          END IF;
+ 27                  END IF;
+ 28          END LOOP;
+ 29  COMMIT;
+ 30  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || var1 || ', ' || var2);
+ 31  END tee_mail;
+ 32  /
+
+Procedure created.
+
+
+SQL> execute tee_mail;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from postid
+  2  ;
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Helmut                                                                          
+Vares                                                                           
+hvares@itcollege.ee                                                             
+                                                                                
+Vanessa                                                                         
+Siuts                                                                           
+vsiuts@itcollege.ee                                                             
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+Pille                                                                           
+Juga                                                                            
+pjuga@itcollege.ee                                                              
+                                                                                
+Joonas                                                                          
+Mega                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+jmega@itcollege.ee                                                              
+                                                                                
+Paul                                                                            
+Raud                                                                            
+praud@itcollege.ee                                                              
+                                                                                
+Kadi                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Kilomeeter                                                                      
+kkilomee@itcollege.ee                                                           
+                                                                                
+Kertu                                                                           
+Miil                                                                            
+kmiil@itcollege.ee                                                              
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Jennifer                                                                        
+Tellis                                                                          
+jtellis@itcollege.ee                                                            
+                                                                                
+Andrus                                                                          
+Kivi                                                                            
+akivi@itcollege.ee                                                              
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+
+9 rows selected.
+
+SQL> spo off;

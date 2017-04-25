@@ -1,0 +1,33 @@
+
+CREATE OR REPLACE PROCEDURE tee_mail
+	IS
+	CURSOR aadress IS
+		SELECT eesnimi, perenimi, epost
+		FROM postid
+		FOR UPDATE OF epost;
+sisestus aadress%ROWTYPE;
+var1 varchar2(30);
+var2 varchar2(30);
+kontroll integer;
+viga EXCEPTION;
+	BEGIN
+	FOR sisestus IN aadress 
+	LOOP
+		var1:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+		var2:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+		var1:=SUBSTR(var1,1,8) || '@itcollege.ee';
+		var2:=SUBSTR(var2,1,8) || '@itcollege.ee';
+		SELECT COUNT(*) INTO kontroll FROM postid WHERE epost=var1;
+
+		IF kontroll=0 THEN
+		UPDATE postid SET epost=var1 WHERE CURRENT OF aadress;
+			ELSE IF kontroll!=0 THEN
+			UPDATE postid SET epost=var2 WHERE CURRENT OF aadress;
+		ELSE RAISE viga;
+			END IF;
+		END IF;
+	END LOOP;
+COMMIT;
+EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || var1 || ', ' || var2);
+END tee_mail;
+/

@@ -1,0 +1,772 @@
+SQL> CREATE TABLE postid(eesnimi varchar(15), perenimi varchar(15), epost varchar(30));
+
+Table created.
+
+SQL> INSERT INTO postid VALUES ('Helmut', 'Vares', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Vanessa', 'Siuts', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Pille', 'Juga', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Joonas', 'Mega', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Paul', 'Raud', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Kadi', 'Kilomeeter', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Kertu', 'Miil', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Jennifer', 'Tellis', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Andrus', 'Kivi', null);
+
+1 row created.
+
+SQL> INSERT INTO postid VALUES ('Voldemar', 'Puu', null);CREATE OR REPLACE PROCEDURE tee_mail;
+INSERT INTO postid VALUES ('Voldemar', 'Puu', null);CREATE OR REPLACE PROCEDURE tee_mail
+                                                   *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL>         IS
+SP2-0042: unknown command "IS" - rest of line ignored.
+SQL>         CURSOR aadress IS
+SP2-0734: unknown command beginning "CURSOR aad..." - rest of line ignored.
+SQL>                 SELECT eesnimi, perenimi, epost
+  2                  FROM postid
+  3                  FOR UPDATE OF epost;
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Helmut                                                                          
+Vares                                                                           
+                                                                                
+                                                                                
+Vanessa                                                                         
+Siuts                                                                           
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+Pille                                                                           
+Juga                                                                            
+                                                                                
+                                                                                
+Joonas                                                                          
+Mega                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+                                                                                
+Paul                                                                            
+Raud                                                                            
+                                                                                
+                                                                                
+Kadi                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Kilomeeter                                                                      
+                                                                                
+                                                                                
+Kertu                                                                           
+Miil                                                                            
+                                                                                
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Jennifer                                                                        
+Tellis                                                                          
+                                                                                
+                                                                                
+Andrus                                                                          
+Kivi                                                                            
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+
+9 rows selected.
+
+SQL> sisestus aadress%ROWTYPE;
+SP2-0734: unknown command beginning "sisestus a..." - rest of line ignored.
+SQL> 1var varchar2(30);
+SP2-0734: unknown command beginning "1var varch..." - rest of line ignored.
+SQL> 2var varchar2(30);
+SP2-0734: unknown command beginning "2var varch..." - rest of line ignored.
+SQL> 1kontroll integer;
+SP2-0734: unknown command beginning "1kontroll ..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+SQL> 2kontroll integer;
+SP2-0734: unknown command beginning "2kontroll ..." - rest of line ignored.
+SQL> viga EXCEPTION;
+SP2-0734: unknown command beginning "viga EXCEP..." - rest of line ignored.
+SQL>         BEGIN
+  2          FOR sisestus IN aadress
+  3          LOOP
+  4                  1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+  5                  2var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+  6                  1var:=SUBSTR(1var,1,8) || '@itcollege.ee';
+  7                  2var:=SUBSTS(2var,1,8) || '@itcollege.ee';
+  8                  SELECT COUNT(*) INTO 1kontroll FROM postid WHERE epost=1var;
+  9                  SELECT COUNT(*) INTO 2kontroll FROM postid WHERE epost=2var;
+ 10                  IF 1kontroll=0 THEN
+ 11                  UPDATE postid SET epost=1var WHERE CURRENT OF aadress;
+ 12                          ELSE IF 1knotroll!=0 THEN
+ 13                          UPDATE postid SET epost=2var WHERE CURRENT OF aadress;
+ 14                  ELSE RAISE viga;
+ 15                          END IF;
+ 16                  END IF;
+ 17          END LOOP;
+ 18  COMMIT;
+ 19  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || 1var || ', ' || 2var);
+ 20  END tee_mail;
+ 21  /
+                1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+                *
+ERROR at line 4:
+ORA-06550: line 4, column 17:
+PLS-00103: Encountered the symbol "1" when expecting one of the following: 
+( begin case declare exit for goto if loop mod null pragma 
+raise return select update while with <an identifier> 
+<a double-quoted delimited-identifier> <a bind variable> << 
+continue close current delete fetch lock insert open rollback 
+savepoint set sql execute commit forall merge pipe purge
+The symbol "1" was ignored.
+ORA-06550: line 5, column 17:
+PLS-00103: Encountered the symbol "2" when expecting one of the following: 
+( begin case declare end exit for goto if loop mod null 
+pragma raise return select update while with <an identifier> 
+<a double-quoted delimited-identifier> <a bind variable> << 
+continue close current delete fetch lock insert open rollback 
+savepoint set sql execute commit forall merge pipe purge
+The symbol "2" was ignored.
+ORA-06550: line 6, column 17:
+PLS-00103: Encountered the symbol "1" when expecting one of the following: 
+( begin case declare end exit for goto if loop mod null 
+pragma raise return select update while with <an identifier> 
+<a double-quoted delimited-identifier> <a bind variable> << 
+continue close current delete fetch lock insert open rollback 
+savepoint set sql execute commit forall merge pipe purge
+The symbol "1" was ignored.
+ORA-06550: line 6, column 31:
+PLS-00103: Encountered the symbol "VAR" when expecting one of the following: 
+) , * & = - + < / > at in is mod remainder not rem => 
+<an exponent (**)> <> or != or ~= >= <= <> and or like like2 
+like4 likec as between from using || multiset member 
+submultiset
+The symbol "," was substituted for "VAR" to continue.
+ORA-06550: line 7, column 17:
+PLS-00103: Encountered the symbol "2" when expecting one of the following: 
+( begin case declare end exit for goto if loop mod null 
+pragma raise return select update while with <an identifier> 
+<a double-quoted delimited-identifier> <a bind variable> << 
+continue close current delete fetch lock insert open rollback 
+
+
+
+SQL> start yl132.txt
+
+Warning: Procedure created with compilation errors.
+
+SQL> select * from postid;
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Helmut                                                                          
+Vares                                                                           
+                                                                                
+                                                                                
+Vanessa                                                                         
+Siuts                                                                           
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+Pille                                                                           
+Juga                                                                            
+                                                                                
+                                                                                
+Joonas                                                                          
+Mega                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+                                                                                
+Paul                                                                            
+Raud                                                                            
+                                                                                
+                                                                                
+Kadi                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Kilomeeter                                                                      
+                                                                                
+                                                                                
+Kertu                                                                           
+Miil                                                                            
+                                                                                
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Jennifer                                                                        
+Tellis                                                                          
+                                                                                
+                                                                                
+Andrus                                                                          
+Kivi                                                                            
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+
+9 rows selected.
+
+SQL> CREATE OR REPLACE PROCEDURE tee_mail;
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  1var varchar2(30);
+  9  2var varchar2(30);
+ 10  1kontroll integer;
+ 11  2kontroll integer;
+ 12  viga EXCEPTION;
+ 13          BEGIN
+ 14          FOR sisestus IN aadress
+ 15          LOOP
+ 16                  1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  2var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 18                  1var:=SUBSTR(1var,1,8) || '@itcollege.ee';
+ 19                  2var:=SUBSTS(2var,1,8) || '@itcollege.ee';
+ 20                  SELECT COUNT(*) INTO 1kontroll FROM postid WHERE epost=1var;
+ 21                  SELECT COUNT(*) INTO 2kontroll FROM postid WHERE epost=2var;
+ 22                  IF 1kontroll=0 THEN
+ 23                  UPDATE postid SET epost=1var WHERE CURRENT OF aadress;
+ 24                          ELSE IF 1knotroll!=0 THEN
+ 25                          UPDATE postid SET epost=2var WHERE CURRENT OF aadress;
+ 26                  ELSE RAISE viga;
+ 27                          END IF;
+ 28                  END IF;
+ 29          END LOOP;
+ 30  COMMIT;
+ 31  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || 1var || ', ' || 2var);
+ 32  END tee_mail;
+ 33  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE tee_mail;
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  1var varchar2(30);
+  9  2var varchar2(30);
+ 10  1kontroll integer;
+ 11  2kontroll integer;
+ 12  viga EXCEPTION;
+ 13          BEGIN
+ 14          FOR sisestus IN aadress
+ 15          LOOP
+ 16                  1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  2var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 18                  1var:=SUBSTR(1var,1,8) || '@itcollege.ee';
+ 19                  2var:=SUBSTR(2var,1,8) || '@itcollege.ee';
+ 20                  SELECT COUNT(*) INTO 1kontroll FROM postid WHERE epost=1var;
+ 21                  SELECT COUNT(*) INTO 2kontroll FROM postid WHERE epost=2var;
+ 22                  IF 1kontroll=0 THEN
+ 23                  UPDATE postid SET epost=1var WHERE CURRENT OF aadress;
+ 24                          ELSE IF 1knotroll!=0 THEN
+ 25                          UPDATE postid SET epost=2var WHERE CURRENT OF aadress;
+ 26                  ELSE RAISE viga;
+ 27                          END IF;
+ 28                  END IF;
+ 29          END LOOP;
+ 30  COMMIT;
+ 31  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || 1var || ', ' || 2var);
+ 32  END tee_mail;
+ 33  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE tee_mail;
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  1var varchar2(30);
+  9  2var varchar2(30);
+ 10  1kontroll integer;
+ 11  2kontroll integer;
+ 12  viga EXCEPTION;
+ 13          BEGIN
+ 14          FOR sisestus IN aadress
+ 15          LOOP
+ 16                  1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  2var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 18                  1var:=SUBSTR(1var,1,8) || '@itcollege.ee';
+ 19                  2var:=SUBSTR(2var,1,8) || '@itcollege.ee';
+ 20                  SELECT COUNT(*) INTO 1kontroll FROM postid WHERE epost=1var;
+ 21                  SELECT COUNT(*) INTO 2kontroll FROM postid WHERE epost=2var;
+ 22                  IF 1kontroll=0 THEN
+ 23                  UPDATE postid SET epost=1var WHERE CURRENT OF aadress;
+ 24                          ELSE IF 1knotroll!=0 THEN
+ 25                          UPDATE postid SET epost=2var WHERE CURRENT OF aadress;
+ 26                  ELSE RAISE viga;
+ 27                          END IF;
+ 28                  END IF;
+ 29          END LOOP;
+ 30  COMMIT;
+ 31  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || 1var || ', ' || 2var);
+ 32  END tee_mail;
+ 33  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> CREATE OR REPLACE PROCEDURE tee_mail
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  1var varchar2(30);
+  9  2var varchar2(30);
+ 10  1kontroll integer;
+ 11  viga EXCEPTION;
+ 12          BEGIN
+ 13          FOR sisestus IN aadress
+ 14          LOOP
+ 15                  1var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 16                  2var:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  1var:=SUBSTR(1var,1,8) || '@itcollege.ee';
+ 18                  2var:=SUBSTR(2var,1,8) || '@itcollege.ee';
+ 19                  SELECT COUNT(*) INTO 1kontroll FROM postid WHERE epost=1var;
+ 20  
+ 21                  IF 1kontroll=0 THEN
+ 22                  UPDATE postid SET epost=1var WHERE CURRENT OF aadress;
+ 23                          ELSE IF 1konotroll!=0 THEN
+ 24                          UPDATE postid SET epost=2var WHERE CURRENT OF aadress;
+ 25                  ELSE RAISE viga;
+ 26                          END IF;
+ 27                  END IF;
+ 28          END LOOP;
+ 29  COMMIT;
+ 30  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || 1var || ', ' || 2var);
+ 31  END tee_mail;
+ 32  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> 
+SQL> SHOW ERRORS
+Errors for PROCEDURE TEE_MAIL:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+8/1      PLS-00103: Encountered the symbol "1" when expecting one of the        
+         following:                                                             
+         begin function pragma procedure subtype type <an identifier>           
+         <a double-quoted delimited-identifier> current cursor delete           
+         exists prior                                                           
+         The symbol "1" was ignored.                                            
+                                                                                
+9/1      PLS-00103: Encountered the symbol "2" when expecting one of the        
+         following:                                                             
+         begin function pragma procedure subtype type <an identifier>           
+         <a double-quoted delimited-identifier> current cursor delete           
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         exists prior                                                           
+         The symbol "2" was ignored.                                            
+                                                                                
+10/1     PLS-00103: Encountered the symbol "1" when expecting one of the        
+         following:                                                             
+         begin function pragma procedure subtype type <an identifier>           
+         <a double-quoted delimited-identifier> current cursor delete           
+         exists prior                                                           
+         The symbol "1" was ignored.                                            
+                                                                                
+15/17    PLS-00103: Encountered the symbol "1" when expecting one of the        
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         following:                                                             
+         ( begin case declare exit for goto if loop mod null pragma             
+         raise return select update while with <an identifier>                  
+         <a double-quoted delimited-identifier> <a bind variable> <<            
+         continue close current delete fetch lock insert open rollback          
+         savepoint set sql execute commit forall merge pipe purge               
+         The symbol "1" was ignored.                                            
+                                                                                
+16/17    PLS-00103: Encountered the symbol "2" when expecting one of the        
+         following:                                                             
+         ( begin case declare end exit for goto if loop mod null                
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         pragma raise return select update while with <an identifier>           
+         <a double-quoted delimited-identifier> <a bind variable> <<            
+         continue close current delete fetch lock insert open rollback          
+         savepoint set sql execute commit forall merge pipe purge               
+         The symbol "2" was ignored.                                            
+                                                                                
+17/17    PLS-00103: Encountered the symbol "1" when expecting one of the        
+         following:                                                             
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update while with <an identifier>           
+         <a double-quoted delimited-identifier> <a bind variable> <<            
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         continue close current delete fetch lock insert open rollback          
+         savepoint set sql execute commit forall merge pipe purge               
+         The symbol "1" was ignored.                                            
+                                                                                
+17/31    PLS-00103: Encountered the symbol "VAR" when expecting one of          
+         the following:                                                         
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+         The symbol "," was substituted for "VAR" to continue.                  
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+                                                                                
+18/17    PLS-00103: Encountered the symbol "2" when expecting one of the        
+         following:                                                             
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update while with <an identifier>           
+         <a double-quoted delimited-identifier> <a bind variable> <<            
+         continue close current delete fetch lock insert open rollback          
+         savepoint set sql execute commit forall merge pipe purge               
+         The symbol "2" was ignored.                                            
+                                                                                
+18/31    PLS-00103: Encountered the symbol "VAR" when expecting one of          
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         the following:                                                         
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+         The symbol "," was substituted for "VAR" to continue.                  
+                                                                                
+19/38    PLS-00103: Encountered the symbol "1" when expecting one of the        
+         following:                                                             
+         mod <an identifier> <a double-quoted delimited-identifier>             
+         <a bind variable> continue current sql execute forall merge            
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         pipe purge                                                             
+                                                                                
+19/73    PLS-00103: Encountered the symbol "VAR" when expecting one of          
+         the following:                                                         
+         * & - + ; / at for mod remainder rem <an exponent (**)> and            
+         or group having intersect minus order start union where                
+         connect || multiset                                                    
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE tee_mail
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  var1 varchar2(30);
+  9  var2 varchar2(30);
+ 10  kontroll integer;
+ 11  viga EXCEPTION;
+ 12          BEGIN
+ 13          FOR sisestus IN aadress
+ 14          LOOP
+ 15                  var1:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 16                  var2:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  var1:=SUBSTR(var1,1,8) || '@itcollege.ee';
+ 18                  var2:=SUBSTR(var2,1,8) || '@itcollege.ee';
+ 19                  SELECT COUNT(*) INTO kontroll FROM postid WHERE epost=var1;
+ 20  
+ 21                  IF kontroll=0 THEN
+ 22                  UPDATE postid SET epost=var1 WHERE CURRENT OF aadress;
+ 23                          ELSE IF konotroll!=0 THEN
+ 24                          UPDATE postid SET epost=var2 WHERE CURRENT OF aadress;
+ 25                  ELSE RAISE viga;
+ 26                          END IF;
+ 27                  END IF;
+ 28          END LOOP;
+ 29  COMMIT;
+ 30  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || var1 || ', ' || var2);
+ 31  END tee_mail;
+ 32  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> SHOW ERRORS
+Errors for PROCEDURE TEE_MAIL:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+23/30    PL/SQL: Statement ignored                                              
+23/33    PLS-00201: identifier 'KONOTROLL' must be declared                     
+SQL> CREATE OR REPLACE PROCEDURE tee_mail
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  var1 varchar2(30);
+  9  var2 varchar2(30);
+ 10  kontroll integer;
+ 11  viga EXCEPTION;
+ 12          BEGIN
+ 13          FOR sisestus IN aadress
+ 14          LOOP
+ 15                  var1:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 16                  var2:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  var1:=SUBSTR(var1,1,8) || '@itcollege.ee';
+ 18                  var2:=SUBSTR(var2,1,8) || '@itcollege.ee';
+ 19                  SELECT COUNT(*) INTO kontroll FROM postid WHERE epost=var1;
+ 20  
+ 21                  IF kontroll=0 THEN
+ 22                  UPDATE postid SET epost=var1 WHERE CURRENT OF aadress;
+ 23                          ELSE IF konotroll!=0 THEN
+ 24                          UPDATE postid SET epost=var2 WHERE CURRENT OF aadress;
+ 25                  ELSE RAISE viga;
+ 26                          END IF;
+ 27                  END IF;
+ 28          END LOOP;
+ 29  COMMIT;
+ 30  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || var1 || ', ' || var2);
+ 31  END tee_mail;
+ 32  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> SHOW ERRORS
+Errors for PROCEDURE TEE_MAIL:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+23/30    PL/SQL: Statement ignored                                              
+23/33    PLS-00201: identifier 'KONOTROLL' must be declared                     
+SQL> CREATE OR REPLACE PROCEDURE tee_mail
+  2          IS
+  3          CURSOR aadress IS
+  4                  SELECT eesnimi, perenimi, epost
+  5                  FROM postid
+  6                  FOR UPDATE OF epost;
+  7  sisestus aadress%ROWTYPE;
+  8  var1 varchar2(30);
+  9  var2 varchar2(30);
+ 10  kontroll integer;
+ 11  viga EXCEPTION;
+ 12          BEGIN
+ 13          FOR sisestus IN aadress
+ 14          LOOP
+ 15                  var1:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,1)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 16                  var2:=REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(lower(SUBSTR(sisestus.eesnimi,1,2)),lower(sisestus.perenimi)),'ä','a'),'ö','o'),'õ','o'),'ü','u');
+ 17                  var1:=SUBSTR(var1,1,8) || '@itcollege.ee';
+ 18                  var2:=SUBSTR(var2,1,8) || '@itcollege.ee';
+ 19                  SELECT COUNT(*) INTO kontroll FROM postid WHERE epost=var1;
+ 20  
+ 21                  IF kontroll=0 THEN
+ 22                  UPDATE postid SET epost=var1 WHERE CURRENT OF aadress;
+ 23                          ELSE IF kontroll!=0 THEN
+ 24                          UPDATE postid SET epost=var2 WHERE CURRENT OF aadress;
+ 25                  ELSE RAISE viga;
+ 26                          END IF;
+ 27                  END IF;
+ 28          END LOOP;
+ 29  COMMIT;
+ 30  EXCEPTION WHEN viga THEN dbms_output.put_line('Järgnevaid eposte ei ole võimalik määrata:' || var1 || ', ' || var2);
+ 31  END tee_mail;
+ 32  /
+
+Procedure created.
+
+SQL> EXECUTE POSTID;
+BEGIN POSTID; END;
+
+      *
+ERROR at line 1:
+ORA-06550: line 1, column 7:
+PLS-00221: 'POSTID' is not a procedure or is undefined
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored 
+
+
+SQL> execute tee_mail;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from postid
+  2  ;
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Helmut                                                                          
+Vares                                                                           
+hvares@itcollege.ee                                                             
+                                                                                
+Vanessa                                                                         
+Siuts                                                                           
+vsiuts@itcollege.ee                                                             
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+Pille                                                                           
+Juga                                                                            
+pjuga@itcollege.ee                                                              
+                                                                                
+Joonas                                                                          
+Mega                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+jmega@itcollege.ee                                                              
+                                                                                
+Paul                                                                            
+Raud                                                                            
+praud@itcollege.ee                                                              
+                                                                                
+Kadi                                                                            
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Kilomeeter                                                                      
+kkilomee@itcollege.ee                                                           
+                                                                                
+Kertu                                                                           
+Miil                                                                            
+kmiil@itcollege.ee                                                              
+                                                                                
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+Jennifer                                                                        
+Tellis                                                                          
+jtellis@itcollege.ee                                                            
+                                                                                
+Andrus                                                                          
+Kivi                                                                            
+akivi@itcollege.ee                                                              
+
+EESNIMI                                                                         
+---------------------------------------------                                   
+PERENIMI                                                                        
+---------------------------------------------                                   
+EPOST                                                                           
+--------------------------------------------------------------------------------
+                                                                                
+
+9 rows selected.
+
+SQL> spo off;

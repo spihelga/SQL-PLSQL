@@ -1,0 +1,26 @@
+CREATE OR REPLACE PACKAGE viivis IS
+viivisemaar NUMBER := 0.005;
+tahtaeg NUMBER := 14;
+PROCEDURE idk_viivis (id IN NUMBER);
+FUNCTION volg (id IN NUMBER) return NUMBER;
+END viivis;
+/
+
+CREATE OR REPLACE PACKAGE BODY viivis IS
+	FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+		BEGIN
+		SELECT viivised INTO volg FROM
+			(SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+			FROM laenutused l, raamatud r
+			WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+			RETURN volg;
+	END volg;
+PROCEDURE idk_viivis (id IN NUMBER) IS
+	BEGIN
+	IF volg(id)>0 THEN
+		dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+	ELSE dbms_output.put_line('Viivis on 0');
+	END IF;
+END idk_viivis;
+END viivis;
+/

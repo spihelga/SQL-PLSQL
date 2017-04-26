@@ -1,0 +1,324 @@
+SQL> CREATE OR REPLACE PACKAGE viivis IS
+  2  viivisemaar NUMBER := 0.005;
+  3  tahtaeg NUMBER := 14;
+  4  PROCEDURE idk_viivis (id IN NUMBER);
+  5  FUNCTION volg (id IN NUMBER) return NUMBER;
+  6  END viivis;
+  7  /
+
+Package created.
+
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((laenutused.tagastamine-lanutused.laenutamine-tahtaeg)*raamatud.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  PROCEDURE idk_viivis (id IN NUMBER) IS
+ 11          BEGIN
+ 12          IF volg(id)>0 THEN
+ 13                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 14          ELSE dbms_output.put_line('Viivis on 0');
+ 15          END IF;
+ 16  END idk_viivis;
+ 17  END viivis;
+ 18  /
+
+Warning: Package Body created with compilation errors.
+
+SQL> SHOW ERRORS
+Errors for PACKAGE BODY VIIVIS:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+4/17     PL/SQL: SQL Statement ignored                                          
+5/89     PL/SQL: ORA-00904: "RAAMATUD"."HIND": invalid identifier               
+SQL> DESCRIBE RAAMATUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SHIFFER                                   NOT NULL NUMBER(11)
+ AUTOR                                     NOT NULL VARCHAR2(30)
+ PEALKIRI                                  NOT NULL VARCHAR2(25)
+ HIND                                               NUMBER(4)
+ KOGUS                                              NUMBER(3)
+
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  PROCEDURE idk_viivis (id IN NUMBER) IS
+ 11          BEGIN
+ 12          IF volg(id)>0 THEN
+ 13                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 14          ELSE dbms_output.put_line('Viivis on 0');
+ 15          END IF;
+ 16  END idk_viivis;
+ 17  END viivis;
+ 18  /
+
+Package body created.
+
+SQL> SELECT * FROM LAENUTUSED;
+
+  LAENUTUS LAENAJA_ID  RAAMATUSH LAENUTAMINE     TAGASTAMINE                    
+---------- ---------- ---------- --------------- ---------------                
+         1 4.8902E+10          1 20-APR-17                                      
+         2 3.8902E+10          2 10-APR-17       20-APR-17                      
+         3 4.8902E+10          3 02-FEB-17                                      
+         4 3.8902E+10          1 01-MAR-17       02-MAR-17                      
+
+SQL> VIIVISED.VOLG(CREATE OR REPLACE PACKAGE BODY viivis IS
+SP2-0734: unknown command beginning "VIIVISED.V..." - rest of line ignored.
+SQL>         FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+SP2-0734: unknown command beginning "FUNCTION v..." - rest of line ignored.
+SQL>                 BEGIN
+  2                  SELECT viivised INTO volg FROM
+  3                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  4                          FROM laenutused l, raamatud r
+  5                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  6                          RETURN volg;
+  7          END volg;
+  8  PROCEDURE idk_viivis (id IN NUMBER) IS
+  9          BEGIN
+ 10          IF volg(id)>0 THEN
+ 11                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 12          ELSE dbms_output.put_line('Viivis on 0');
+ 13          END IF;
+ 14  END idk_viivis;
+ 15  END viivis;
+ 16  /
+PROCEDURE idk_viivis (id IN NUMBER) IS
+*
+ERROR at line 8:
+ORA-06550: line 8, column 1:
+PLS-00103: Encountered the symbol "PROCEDURE" 
+ORA-06550: line 15, column 1:
+PLS-00103: Encountered the symbol "END" when expecting one of the following: 
+begin function pragma procedure 
+
+
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  PROCEDURE idk_viivis (id IN NUMBER) IS
+ 11          BEGIN
+ 12          IF volg(id)>0 THEN
+ 13                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 14          ELSE dbms_output.put_line('Viivis on 0');
+ 15          END IF;
+ 16  END idk_viivis;
+ 17  END viivis;
+ 18  /
+
+Package body created.
+
+SQL> select volg.viivised(48902200203) from dual;
+select volg.viivised(48902200203) from dual
+       *
+ERROR at line 1:
+ORA-00904: "VOLG"."VIIVISED": invalid identifier 
+
+
+SQL> 1
+  1* select volg.viivised(48902200203) from dual
+SQL> c/volg.viivised/viivis.volg
+  1* select viivis.volg(48902200203) from dual
+SQL> r
+  1* select viivis.volg(48902200203) from dual
+
+VIIVIS.VOLG(48902200203)                                                        
+------------------------                                                        
+                                                                                
+
+SQL> describe laenutused
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ LAENUTUS                                  NOT NULL NUMBER(11)
+ LAENAJA_ID                                         NUMBER(11)
+ RAAMATUSH                                          NUMBER(11)
+ LAENUTAMINE                               NOT NULL DATE
+ TAGASTAMINE                                        DATE
+
+SQL> update laenutused set tagastamine=sysdate where laenaja_id=48902200203;
+
+1 row updated.
+
+SQL> select * from laenutused where laenaja_id=48902200203;
+
+  LAENUTUS LAENAJA_ID  RAAMATUSH LAENUTAMINE     TAGASTAMINE                    
+---------- ---------- ---------- --------------- ---------------                
+         3 4.8902E+10          3 02-FEB-17       26-APR-17                      
+
+SQL> select viivis.volg(48902200203) from dual;
+
+VIIVIS.VOLG(48902200203)                                                        
+------------------------                                                        
+               69.575706                                                        
+
+SQL> select * from laenutused;
+
+  LAENUTUS LAENAJA_ID  RAAMATUSH LAENUTAMINE     TAGASTAMINE                    
+---------- ---------- ---------- --------------- ---------------                
+         1 4.8902E+10          1 20-APR-17                                      
+         2 3.8902E+10          2 10-APR-17       20-APR-17                      
+         3 4.8902E+10          3 02-FEB-17       26-APR-17                      
+         4 3.8902E+10          1 01-MAR-17       02-MAR-17                      
+
+SQL> CREATE OR REPLACE PACKAGE viivis IS
+  2  viivisemaar NUMBER := 0.005;
+  3  tahtaeg NUMBER := 14;
+  4  PROCEDURE idk_viivis (id IN NUMBER);
+  5  FUNCTION volg (id IN NUMBER) return NUMBER;
+  6  END viivis;
+  7  /
+
+Package created.
+
+SQL> 
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  PROCEDURE idk_viivis (id IN NUMBER) IS
+ 11          BEGIN
+ 12          IF volg(id)>0 THEN
+ 13                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 14          ELSE dbms_output.put_line('Viivis on 0');
+ 15          END IF;
+ 16  END idk_viivis;
+ 17  END viivis;
+ 18  /
+
+Package body created.
+
+SQL> select viivis.volg(48902200203) from dual;
+
+VIIVIS.VOLG(48902200203)                                                        
+------------------------                                                        
+               69.575706                                                        
+
+SQL> select viivis.volg(38902200202) from dual;
+
+VIIVIS.VOLG(38902200202)                                                        
+------------------------                                                        
+                                                                                
+
+SQL> select idk_viivis (38902200202) from dual;
+select idk_viivis (38902200202) from dual
+       *
+ERROR at line 1:
+ORA-00904: "IDK_VIIVIS": invalid identifier 
+
+
+SQL> select viivis.idk_viivis (38902200202) from dual;
+select viivis.idk_viivis (38902200202) from dual
+       *
+ERROR at line 1:
+ORA-00904: "VIIVIS"."IDK_VIIVIS": invalid identifier 
+
+
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  END viivis;
+ 11  /
+
+Warning: Package Body created with compilation errors.
+
+SQL> show errors
+Errors for PACKAGE BODY VIIVIS:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+4/11     PLS-00323: subprogram or cursor 'IDK_VIIVIS' is declared in a          
+         package specification and must be defined in the package body          
+                                                                                
+SQL> update laenutused set tagastamine=sysdate where laenutaja_ID=48902200202;
+update laenutused set tagastamine=sysdate where laenutaja_ID=48902200202
+                                                *
+ERROR at line 1:
+ORA-00904: "LAENUTAJA_ID": invalid identifier 
+
+
+SQL> 1
+  1* update laenutused set tagastamine=sysdate where laenutaja_ID=48902200202
+SQL> c/laenutaja/laenaja
+  1* update laenutused set tagastamine=sysdate where laenaja_ID=48902200202
+SQL> r
+  1* update laenutused set tagastamine=sysdate where laenaja_ID=48902200202
+
+1 row updated.
+
+SQL> select viivis.volg(48902200202) from dual;
+select viivis.volg(48902200202) from dual
+                                     *
+ERROR at line 1:
+ORA-04063: package body "SPIHELGAS.VIIVIS" has errors 
+
+
+SQL> CREATE OR REPLACE PACKAGE viivis IS
+  2  viivisemaar NUMBER := 0.005;
+  3  tahtaeg NUMBER := 14;
+  4  PROCEDURE idk_viivis (id IN NUMBER);
+  5  FUNCTION volg (id IN NUMBER) return NUMBER;
+  6  END viivis;
+  7  /
+
+Package created.
+
+SQL> 
+SQL> CREATE OR REPLACE PACKAGE BODY viivis IS
+  2          FUNCTION volg (id IN NUMBER) return NUMBER IS volg NUMBER;
+  3                  BEGIN
+  4                  SELECT viivised INTO volg FROM
+  5                          (SELECT ((L.tagastamine-l.laenutamine-tahtaeg)*r.hind*viivisemaar) AS viivised
+  6                          FROM laenutused l, raamatud r
+  7                          WHERE r.shiffer=l.raamatush AND l.tagastamine-l.laenutamine-14>0 AND id=laenaja_ID);
+  8                          RETURN volg;
+  9          END volg;
+ 10  PROCEDURE idk_viivis (id IN NUMBER) IS
+ 11          BEGIN
+ 12          IF volg(id)>0 THEN
+ 13                  dbms_output.put_line('Võlg on 0' || volg(id) || ' €');
+ 14          ELSE dbms_output.put_line('Viivis on 0');
+ 15          END IF;
+ 16  END idk_viivis;
+ 17  END viivis;
+ 18  /
+
+Package body created.
+
+SQL> 1
+  1* CREATE OR REPLACE PACKAGE BODY viivis IS
+SQL> select viivis.volg(48902200202) from dual;
+
+VIIVIS.VOLG(48902200202)                                                        
+------------------------                                                        
+                                                                                
+
+SQL> spo off

@@ -1,0 +1,34 @@
+SET SERVEROUTPUT ON
+DECLARE
+tood number;
+
+
+CURSOR topelt (kkood ylesanne.kursusekood%TYPE) IS
+	SELECT yliopilase_ID, kursusekood, too_nr, punktid
+	FROM ylesanne
+	WHERE ylesanne.yliopilase_ID IN (SELECT yliopilase_ID from ylesanne WHERE kursusekood=kkood);
+
+BEGIN
+	FOR topelt_kirje IN topelt LOOP
+		IF topelt_kirje.punktid < topelt.punktid THEN
+			DELETE FROM ylesanne WHERE CURRENT OF topelt;
+		END IF;
+	END LOOP;
+COMMIT;
+END;
+.
+
+
+
+
+
+
+SET SERVEROUTPUT ON
+DECLARE
+CURSOR topelt IS 
+	SELECT yliopilase_ID, punktid 
+		FROM (SELECT ylesanne.yliopilase_ID,ylesanne.kursusekood, ylesanne.too_nr, ylesanne.punktid
+			FROM ylesanne
+				INNER JOIN (SELECT yliopilase_ID, kursusekood, too_nr, COUNT(*) AS kokku
+				FROM ylesanne
+				GROUP BY yliopilse_ID, kursusekood, too_nr

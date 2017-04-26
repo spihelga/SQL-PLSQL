@@ -1,0 +1,19 @@
+SET SERVEROUTPUT ON
+DECLARE
+CURSOR kursused (yid lepikult.yliopilased.id%TYPE) IS
+	SELECT nimetus FROM lepikult.oppeained
+	WHERE kood NOT IN (SELECT kursusekood FROM lepikult.koduylesanded WHERE yliopilase_ID=yid);
+BEGIN
+	FOR idk IN (SELECT* FROM lepikult.yliopilased) 
+	LOOP
+	dbms_output.put_line(idk.eesnimi || ' ' || idk.perenimi || ': ');
+	dbms_output.put_line('Ei ole veel esitanud töid ainetes: ');
+		FOR aine IN kursused (idk.id)
+		LOOP
+		dbms_output.put_line(aine.nimetus || ',');
+		END LOOP;
+	dbms_output.put_line(chr(13));
+	END LOOP;
+END;
+.
+/

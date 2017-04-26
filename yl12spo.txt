@@ -1,0 +1,34 @@
+SQL> start yl12.2.txt
+Katrin Kask:                                                                    
+Ei ole veel esitanud töid ainetes:                                              
+Digitaalne heli- ja pildit””tlus,                                               
+                                                                               
+Tarmo Kuusk:                                                                    
+Ei ole veel esitanud töid ainetes:                                              
+Operatsioonissteemide tehnoloogia,                                             
+Riistvaral„hedane programmeerimine,                                             
+Oracle:  SQL ja PL/SQL,                                                         
+Digitaalne heli- ja pildit””tlus,                                               
+Digitaalkommunikatsioon,                                                        
+                                                                               
+Kairi M„nd:                                                                     
+Ei ole veel esitanud töid ainetes:                                              
+Operatsioonissteemide tehnoloogia,                                             
+Riistvaral„hedane programmeerimine,                                             
+Digitaalne heli- ja pildit””tlus,                                               
+                                                                               
+Salme Saar:                                                                     
+Ei ole veel esitanud töid ainetes:                                              
+Operatsioonissteemide tehnoloogia,                                             
+Riistvaral„hedane programmeerimine,                                             
+                                                                               
+Liina Vaher:                                                                    
+Ei ole veel esitanud töid ainetes:                                              
+Operatsioonissteemide tehnoloogia,                                             
+Digitaalne heli- ja pildit””tlus,                                               
+Digitaalkommunikatsioon,                                                        
+                                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> spo off

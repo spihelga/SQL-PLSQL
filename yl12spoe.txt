@@ -1,0 +1,124 @@
+﻿SET SERVEROUTPUT ON
+DECLARE
+CURSOR kursused (yid lepikult.yliopilased.id%TYPE) IS
+	SELECT nimetus FROM lepikult.oppeained
+	WHERE kood NOT IN (SELECT kursusekood FROM lepikult.koduylesanded WHERE yliopilase_ID=yid);
+BEGIN
+	FOR idk IN (SELECT* FROM lepikult.yliopilased) 
+	LOOP
+	dbms_output.put_line(idk.eesnimi || ' ' || idk.perenimi || ': ');
+	dbms_output.put_line('Ei ole veel esitanud töid ainetes: ');
+		FOR aine IN kursused (idk.id)
+		LOOP
+		dbms_output.put_line(aine.nimetus || ',');
+		END LOOP;
+	dbms_output.put_line(chr(13));
+	END LOOP;
+END;
+.
+/
+
+SQL> start yl12.2.txt
+
+
+Katrin Kask: 
+
+Ei ole veel esitanud töid ainetes:
+
+Digitaalne heli- ja pildit””tlus,
+
+
+Tarmo Kuusk:
+
+Ei ole veel esitanud töid ainetes:
+
+Operatsioonissteemide tehnoloogia,
+
+Riistvaral„hedane programmeerimine, 
+
+Oracle:  SQL ja PL/SQL,     
+
+Digitaalne heli- ja pildit””tlus,                                               
+
+Digitaalkommunikatsioon,                                                        
+                                                                               
+
+
+Kairi M„nd:                                                                   
+
+Ei ole veel esitanud töid ainetes:                                              
+
+Operatsioonissteemide tehnoloogia,                                             
+
+Riistvaral„hedane programmeerimine,                                             
+
+Digitaalne heli- ja pildit””tlus,                                               
+                                                                               
+
+
+Salme Saar:                                                                     
+
+Ei ole veel esitanud töid ainetes:                                              
+
+Operatsioonissteemide tehnoloogia,                                             
+
+Riistvaral„hedane programmeerimine,                                             
+                                                                               
+
+
+Liina Vaher:                                                                    
+
+Ei ole veel esitanud töid ainetes:                                              
+
+Operatsioonissteemide tehnoloogia,                                             
+
+Digitaalne heli- ja pildit””tlus,                                               
+
+Digitaalkommunikatsioon,
+                                                        
+                                                                               
+
+
+PL/SQL procedure successfully completed.
+
+
+
+SQL> spo off
+
+
+Ülesande esimene osa jäi keeruliseks. Võimalikud alustused.
+
+SET SERVEROUTPUT ON
+DECLARE
+tood number;
+
+
+CURSOR topelt (kkood ylesanne.kursusekood%TYPE) IS
+	SELECT yliopilase_ID, kursusekood, too_nr, punktid
+	FROM ylesanne
+	WHERE ylesanne.yliopilase_ID IN (SELECT yliopilase_ID from ylesanne WHERE kursusekood=kkood);
+
+BEGIN
+	FOR topelt_kirje IN topelt LOOP
+		IF topelt_kirje.punktid < topelt.punktid THEN
+			DELETE FROM ylesanne WHERE CURRENT OF topelt;
+		END IF;
+	END LOOP;
+COMMIT;
+END;
+.
+
+
+
+
+
+
+SET SERVEROUTPUT ON
+DECLARE
+CURSOR topelt IS 
+	SELECT yliopilase_ID, punktid 
+		FROM (SELECT ylesanne.yliopilase_ID,ylesanne.kursusekood, ylesanne.too_nr, ylesanne.punktid
+			FROM ylesanne
+				INNER JOIN (SELECT yliopilase_ID, kursusekood, too_nr, COUNT(*) AS kokku
+				FROM ylesanne
+				GROUP BY yliopilse_ID, kursusekood, too_nr

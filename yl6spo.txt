@@ -1,0 +1,47 @@
+SQL> COLUMN nimetus FORMAT A15 NEW_VALUE nimetus NOPRINT
+SQL> COLUMN oppejoud FORMAT A15 NEW_VALUE oppejoud NOPRINT
+SQL> COLUMN Nimi FORMAT A15
+SQL> BTITLE CENTER 'Õppejõud: ' oppejoud
+SQL> TTITLE CENTER 'Aine: ' nimetus SKIP 2
+SQL> BREAK ON nimetus SKIP PAGE
+SQL> SET PAGESIZE 15
+SQL> ACCEPT nimetus PROMT 'Sisestage õppeaine nimetus: '
+SP2-0003: Ill-formed ACCEPT command starting as PROMT 'Sisestage õppeaine nimetus: '
+SQL> SELECT
+  2  perenimi || ', ' || eesnimi as "Nimi",
+  3  too_nr as "Ülesanne",
+  4  punktid as "Punktid",
+  5  to_char(kuupaev, 'dd.mm.rrrr') as "Kuupäev",
+  6  nimetus,
+  7  oppejoud
+  8  FROM
+  9  yliopilased y,
+ 10  koduylesanded k,
+ 11  oppeained o
+ 12  WHERE
+ 13  k.yliopilase_id=y.id AND
+ 14  k.kursusekood=o.kood AND
+ 15  UPPER(nimetus) LIKE UPPER ('%&nimetus%')
+ 16  ORDER BY nimetus;
+Enter value for nimetus: Digitaalk
+old  15: UPPER(nimetus) LIKE UPPER ('%&nimetus%')
+new  15: UPPER(nimetus) LIKE UPPER ('%Digitaalk%')
+
+                          Aine: Digitaalkommunikatsioon                         
+                                                                                
+Nimi              Ülesanne    Punktid Kuupäev                                   
+--------------- ---------- ---------- ------------------------------            
+Kask, Katrin             1          5 11.06.2003                                
+M„nd, Kairi              1         10 01.06.2003                                
+M„nd, Kairi              3          8 19.06.2003                                
+M„nd, Kairi              2        2.5 11.08.2003                                
+Saar, Salme              2        4.5 05.06.2003                                
+Kask, Katrin             2        6.5 21.06.2003                                
+
+
+
+                              Õppejõud: Heldur Haak                             
+
+6 rows selected.
+
+SQL> spo off
